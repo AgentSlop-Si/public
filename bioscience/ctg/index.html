@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A retrospective CTG development study on low umbilical arterial pH, with signal-model and Decider results and a plan for an offline CTG app prototype.">
+  <meta name="theme-color" content="#f6f8f3">
+  <title>CTG and arterial pH · AgentSlop Research</title>
+  <link rel="stylesheet" href="../../assets/research.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="shell header-inner">
+      <a class="wordmark" href="../../"><span class="brand-mark" aria-hidden="true"></span>AgentSlop</a>
+      <nav aria-label="Main navigation"><a href="../../#bioscience">Bioscience</a></nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <div class="shell">
+      <section class="hero" aria-labelledby="study-heading">
+        <div class="hero-copy">
+          <p class="label">Bioscience</p>
+          <h1 id="study-heading">Can CTG predict low arterial pH?</h1>
+          <p class="lede">We tested how well models can identify low umbilical arterial pH from fetal heart rate and uterine activity recorded during labor.</p>
+          <p class="meta"><time datetime="2026-11">November 2026</time> <span aria-hidden="true">·</span> Retrospective development study</p>
+        </div>
+        <figure class="trace">
+          <img src="../../assets/ctg-illustration.webp" width="1200" height="704" alt="Two synthetic waveforms on the same time axis, showing fetal heart rate above and uterine activity below">
+          <figcaption>Synthetic CTG illustration</figcaption>
+        </figure>
+      </section>
+
+      <dl class="study-stats">
+        <div><dt>Development recordings</dt><dd>441</dd></div>
+        <div><dt>pH below 7.10</dt><dd>45</dd></div>
+        <div><dt>Evaluation folds</dt><dd>5</dd></div>
+        <div><dt>Reserved and unscored</dt><dd>111</dd></div>
+      </dl>
+
+      <div class="report-layout">
+        <aside class="contents">
+          <nav aria-label="In this report">
+            <a href="#question">What we examined</a>
+            <a href="#methods">What we tested</a>
+            <a href="#findings">What we found</a>
+            <a href="#app">What we’ll build</a>
+            <a href="#sources">Data and sources</a>
+          </nav>
+        </aside>
+
+        <article class="report" aria-labelledby="study-heading">
+          <section id="question">
+            <h2>What we examined</h2>
+            <p>Cardiotocography (CTG) records fetal heart rate and uterine activity. We investigated whether these two signals carry enough information to rank recordings by the likelihood of <strong>umbilical arterial pH below 7.10</strong>, the endpoint used in these experiments.</p>
+            <p>We used the selected, single-center CTU-UHB database. In the 441-recording development split, models were fitted and evaluated in five folds. All windows from a recording stayed together. We kept 111 recordings separate and unscored. The windows end at the end of the recording, and the study did not establish a fixed lead time before delivery.</p>
+          </section>
+
+          <section id="methods">
+            <h2>What we tested</h2>
+            <dl class="method-list">
+              <div>
+                <dt>Waveforms and numerical features</dt>
+                <dd>A small one-dimensional convolutional neural network (CNN) on the signals, plus logistic regression and XGBoost on derived features.</dd>
+              </div>
+              <div>
+                <dt>Decider and language-model readouts</dt>
+                <dd>Frozen Decider configurations, trained readouts, and separately fitted adapters such as Kev. We measured ranking and checked how alert thresholds traded off missed events and false positives.</dd>
+              </div>
+              <div>
+                <dt>CTG plots as image inputs</dt>
+                <dd>Decider on plots rendered from the waveforms, including JPEG compression and rotation with noise. The image tests recorded whether each plot could be read.</dd>
+              </div>
+            </dl>
+
+            <figure class="window-figure">
+              <div class="window-graphic" aria-hidden="true">
+                <p>One 30-minute input</p>
+                <div class="duration-bar"></div>
+                <p>Sixteen overlapping 15-minute inputs</p>
+                <div class="window-stack">
+                  <i style="--start:1"></i><i style="--start:2"></i><i style="--start:3"></i><i style="--start:4"></i>
+                  <i style="--start:5"></i><i style="--start:6"></i><i style="--start:7"></i><i style="--start:8"></i>
+                  <i style="--start:9"></i><i style="--start:10"></i><i style="--start:11"></i><i style="--start:12"></i>
+                  <i style="--start:13"></i><i style="--start:14"></i><i style="--start:15"></i><i style="--start:16"></i>
+                </div>
+                <div class="window-axis"><span>0 min</span><span>15 min</span><span>30 min</span></div>
+              </div>
+              <figcaption>The paired experiments used either one whole 30-minute segment or sixteen 15-minute views starting one minute apart. The sixteen views together cover the same 30 minutes. Training exposure and calibration varied by model.</figcaption>
+            </figure>
+          </section>
+
+          <section id="findings">
+            <h2>What we found</h2>
+            <p>Conventional signal models provided a strong development benchmark. The initial waveform CNN reached <strong>0.799 AUROC</strong>. Results below come from separate protocols on the same development cohort, so direct model comparisons need matched inputs and evaluation.</p>
+
+            <h3 id="baseline-heading">Initial signal and feature baselines</h3>
+            <div class="table-wrap" role="region" aria-labelledby="baseline-heading" tabindex="0">
+              <table>
+                <caption class="sr-only">Ranking performance across 441 development recordings</caption>
+                <thead><tr><th scope="col">Model</th><th scope="col">AUROC</th><th scope="col">Average precision</th></tr></thead>
+                <tbody>
+                  <tr><th scope="row">Logistic regression</th><td>0.792</td><td>0.354</td></tr>
+                  <tr><th scope="row">XGBoost</th><td>0.793</td><td>0.289</td></tr>
+                  <tr><th scope="row">Waveform CNN</th><td>0.799</td><td>0.291</td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <h3 id="decider-heading">One frozen Decider configuration</h3>
+            <p>With a cutoff selected inside each training fold to target a 20% false-positive rate, Decider detected 14 of 45 events on the full window and 19 of 45 with the sixteen views. The fixed zero-margin cutoff raised zero alerts in both conditions.</p>
+            <div class="table-wrap" role="region" aria-labelledby="decider-heading" tabindex="0">
+              <table>
+                <caption class="sr-only">Results for the fixed model weights and training-fold cutoffs of Decider registry entry 24</caption>
+                <thead><tr><th scope="col">Input</th><th scope="col">AUROC</th><th scope="col">Events detected</th><th scope="col">False positives</th></tr></thead>
+                <tbody>
+                  <tr><th scope="row">One 30-min window</th><td>0.645</td><td>31.1% <small>14 of 45</small></td><td>19.7% <small>78 of 396</small></td></tr>
+                  <tr><th scope="row">Sixteen 15-min windows</th><td>0.685</td><td>42.2% <small>19 of 45</small></td><td>19.9% <small>79 of 396</small></td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <p>In a separate Kev adapter experiment, AUROC was 0.542 and 0.565 for the two inputs. Both fixed 0.5 conditions detected zero events. Training with sixteen views involved sixteen times as many input presentations per recording.</p>
+            <p>All 441 clean rendered plots met the image readability checks. Real phone photos introduce capture conditions that remain to be tested.</p>
+
+            <details class="scope-note">
+              <summary>Study registry coverage and limits</summary>
+              <p>All 192 registry entries have at least four measured result rows at their reported scopes. Of those, 191 have four rows on the full 441-recording development split. The remaining study has four partial results on 177 recordings, with further training cancelled.</p>
+              <p>The development split was reused across experiments. External validation, mother-level independence, and clinical performance remain open questions.</p>
+            </details>
+          </section>
+
+          <section id="app">
+            <h2>What we’ll build</h2>
+            <p>Next is a research prototype for offline CTG image analysis on a phone. It will compare a Decider readout with conventional ML on the extracted signals.</p>
+            <ol class="roadmap">
+              <li><h3>Capture and digitize</h3><p>Turn a photographed or exported chart into two waveforms. Show which segments were read and flag images that are too incomplete to score.</p></li>
+              <li><h3>Compare on the same inputs</h3><p>Evaluate Decider alongside a waveform CNN or feature model. Measure extraction error, missed events, false positives, and how often the prototype declines to score.</p></li>
+              <li><h3>Test offline and validate independently</h3><p>Measure latency and memory on physical devices. Reserve separate data for evaluation before considering any clinical use.</p></li>
+            </ol>
+          </section>
+
+          <section id="sources">
+            <h2>Data and sources</h2>
+            <p>The numbers on this page are aggregate results from AgentSlop’s development experiments. AUROC measures ranking, average precision summarizes the precision–recall tradeoff, and false-positive rates are measured among recordings with pH at or above 7.10.</p>
+            <ul class="source-list">
+              <li><a href="results.json">Aggregate results and evaluation notes (JSON)</a></li>
+              <li><a href="https://physionet.org/content/ctu-uhb-ctgdb/1.0.0/">PhysioNet CTU-UHB Intrapartum Cardiotocography Database v1.0.0</a></li>
+              <li><a href="https://doi.org/10.1186/1471-2393-14-16">Chudáček et al. <cite>Open access intrapartum CTG database</cite>, 2014</a></li>
+              <li><a href="https://doi.org/10.1038/s44360-026-00096-z">Pollard et al. <cite>PhysioNet as a global platform for biomedical research</cite>, 2026</a></li>
+            </ul>
+          </section>
+        </article>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="shell footer-inner"><a href="../../">AgentSlop Research</a><a href="https://github.com/AgentSlop-Si/public">Site source on GitHub</a></div>
+  </footer>
+</body>
+</html>

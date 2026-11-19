@@ -1,0 +1,226 @@
+{
+  "title": "CTG and umbilical arterial pH",
+  "snapshot_date": "2026-11-18",
+  "setting": "Retrospective, single-center development experiments using a reused cohort.",
+  "dataset": "PhysioNet CTU-UHB Intrapartum Cardiotocography Database v1.0.0",
+  "dataset_doi": "10.13026/C22013",
+  "endpoint": "Umbilical arterial pH < 7.10",
+  "development": {
+    "recordings": 441,
+    "events": 45,
+    "non_events": 396,
+    "outer_folds": 5
+  },
+  "reserved_unscored_recordings": 111,
+  "input_design": {
+    "whole_seconds": 1800,
+    "short_seconds": 900,
+    "short_starts_seconds": [
+      0,
+      60,
+      120,
+      180,
+      240,
+      300,
+      360,
+      420,
+      480,
+      540,
+      600,
+      660,
+      720,
+      780,
+      840,
+      900
+    ]
+  },
+  "initial_baselines": [
+    {
+      "model": "logistic_regression",
+      "auroc": 0.7921997755331089,
+      "average_precision": 0.35427421211882903,
+      "brier": 0.08059784387249634
+    },
+    {
+      "model": "xgboost",
+      "auroc": 0.7927048260381593,
+      "average_precision": 0.2886249673007477,
+      "brier": 0.08262324811989556
+    },
+    {
+      "model": "waveform_cnn",
+      "auroc": 0.7994949494949495,
+      "average_precision": 0.29083464888383936,
+      "brier": 0.1248439119726322
+    }
+  ],
+  "decider_frozen_example": {
+    "registry_entry": 24,
+    "notes": "Fixed model weights. Nested training-fold negative cutoffs target 20% false positives. The observed held-fold FPR can differ.",
+    "results": [
+      {
+        "input": "30 min",
+        "policy": "fixed0",
+        "recordings": 441,
+        "events": 45,
+        "non_events": 396,
+        "true_positives": 0,
+        "false_negatives": 45,
+        "false_positives": 0,
+        "true_negatives": 396,
+        "sensitivity": 0.0,
+        "false_positive_rate": 0.0,
+        "auroc": 0.6449494949494949,
+        "average_precision": 0.1478046551974515,
+        "brier": 0.09399338939154127
+      },
+      {
+        "input": "30 min",
+        "policy": "nestedTRAIN20",
+        "recordings": 441,
+        "events": 45,
+        "non_events": 396,
+        "true_positives": 14,
+        "false_negatives": 31,
+        "false_positives": 78,
+        "true_negatives": 318,
+        "sensitivity": 0.3111111111111111,
+        "false_positive_rate": 0.19696969696969696,
+        "auroc": 0.6449494949494949,
+        "average_precision": 0.1478046551974515,
+        "brier": 0.09399338939154127
+      },
+      {
+        "input": "16 × 15 min",
+        "policy": "fixed0",
+        "recordings": 441,
+        "events": 45,
+        "non_events": 396,
+        "true_positives": 0,
+        "false_negatives": 45,
+        "false_positives": 0,
+        "true_negatives": 396,
+        "sensitivity": 0.0,
+        "false_positive_rate": 0.0,
+        "auroc": 0.685297418630752,
+        "average_precision": 0.1993660027241202,
+        "brier": 0.0935963529700412
+      },
+      {
+        "input": "16 × 15 min",
+        "policy": "nestedTRAIN20",
+        "recordings": 441,
+        "events": 45,
+        "non_events": 396,
+        "true_positives": 19,
+        "false_negatives": 26,
+        "false_positives": 79,
+        "true_negatives": 317,
+        "sensitivity": 0.4222222222222222,
+        "false_positive_rate": 0.1994949494949495,
+        "auroc": 0.685297418630752,
+        "average_precision": 0.1993660027241202,
+        "brier": 0.0935963529700412
+      }
+    ]
+  },
+  "kev_e1_adapters": {
+    "registry_entry": 42,
+    "notes": "Ten newly fitted adapters. TRAIN20 uses each final model’s in-sample outer-training negatives. The short arm sees 16 times the input presentations.",
+    "results": [
+      {
+        "input": "30 min",
+        "policy": "fixed05",
+        "recordings": 441,
+        "events": 45,
+        "non_events": 396,
+        "true_positives": 0,
+        "false_negatives": 45,
+        "false_positives": 0,
+        "true_negatives": 396,
+        "sensitivity": 0.0,
+        "false_positive_rate": 0.0,
+        "auroc": 0.5417789001122334,
+        "average_precision": 0.1376161547502737,
+        "brier": 0.0988136844027274
+      },
+      {
+        "input": "30 min",
+        "policy": "TRAIN20",
+        "recordings": 441,
+        "events": 45,
+        "non_events": 396,
+        "true_positives": 19,
+        "false_negatives": 26,
+        "false_positives": 78,
+        "true_negatives": 318,
+        "sensitivity": 0.4222222222222222,
+        "false_positive_rate": 0.19696969696969696,
+        "auroc": 0.5417789001122334,
+        "average_precision": 0.1376161547502737,
+        "brier": 0.0988136844027274
+      },
+      {
+        "input": "16 × 15 min",
+        "policy": "fixed05",
+        "recordings": 441,
+        "events": 45,
+        "non_events": 396,
+        "true_positives": 0,
+        "false_negatives": 45,
+        "false_positives": 0,
+        "true_negatives": 396,
+        "sensitivity": 0.0,
+        "false_positive_rate": 0.0,
+        "auroc": 0.5651515151515151,
+        "average_precision": 0.14567583593675965,
+        "brier": 0.101579252936458
+      },
+      {
+        "input": "16 × 15 min",
+        "policy": "TRAIN20",
+        "recordings": 441,
+        "events": 45,
+        "non_events": 396,
+        "true_positives": 23,
+        "false_negatives": 22,
+        "false_positives": 79,
+        "true_negatives": 317,
+        "sensitivity": 0.5111111111111111,
+        "false_positive_rate": 0.1994949494949495,
+        "auroc": 0.5651515151515151,
+        "average_precision": 0.14567583593675965,
+        "brier": 0.101579252936458
+      }
+    ]
+  },
+  "rendered_image_readability": {
+    "registry_entry": 29,
+    "input": "Waveform-rendered full 30-minute plots",
+    "phone_photo_validation": false,
+    "conditions": {
+      "clean": {
+        "records": 441,
+        "readable": 441,
+        "abstained": 0
+      },
+      "jpeg65": {
+        "records": 441,
+        "readable": 441,
+        "abstained": 0
+      },
+      "rotation_noise": {
+        "records": 441,
+        "readable": 441,
+        "abstained": 0
+      }
+    }
+  },
+  "results_registry": {
+    "entries": 192,
+    "entries_with_four_numeric_rows_at_reported_scopes": 192,
+    "entries_with_four_full_development_rows": 191,
+    "partial_study_recordings": 177
+  },
+  "limits": "No external validation. Different experiment designs, threshold policies and training exposure require matched evaluation before drawing model-selection conclusions."
+}
