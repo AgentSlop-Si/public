@@ -4,37 +4,29 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="The Soup Kernel Challenge: NVIDIA T4 LoRA kernel optimization, paired benchmark evidence, and the research archive.">
-  <meta name="theme-color" content="#f6f8f3">
+  <meta name="theme-color" content="#101a2c">
   <title>OpenKernelChallenge · AgentSlop Research</title>
   <link rel="canonical" href="https://agentslop.si/hackathons/openkernelchallenge/">
-  <link rel="stylesheet" href="../../assets/research.css">
   <link rel="stylesheet" href="../kernel.css">
 </head>
-<body>
-  <a class="skip-link" href="#main">Skip to content</a>
-  <header class="site-header">
-    <div class="shell header-inner">
-      <a class="wordmark" href="../../"><span class="brand-mark" aria-hidden="true"></span>AgentSlop</a>
-      <nav class="kernel-nav" aria-label="Main navigation">
-        <a href="../../#bioscience">Bioscience</a>
-        <a href="../">Hackathons</a>
-      </nav>
-    </div>
-  </header>
-
-  <main id="main" class="shell">
-    <section class="hero" aria-labelledby="page-title">
-      <div class="hero-copy">
-        <nav class="kernel-breadcrumb" aria-label="Breadcrumb"><a href="../">Hackathons</a><span aria-hidden="true">/</span><span aria-current="page">OpenKernelChallenge</span></nav>
-        <p class="label">Soup Kernel Challenge · GPU systems</p>
-        <h1 id="page-title" class="kernel-title">OpenKernel<wbr>Challenge</h1>
-        <p class="lede">We optimized the kernels used to fine-tune a language model on one NVIDIA T4. The saved paired run took less time and used less GPU memory while retaining the same training task.</p>
-        <a class="button" href="#benchmark">Review the benchmark</a>
+<body id="top">
+<a class="skip" href="#main">Skip to content</a>
+<header class="mast"><div class="frame mast-row"><a class="brand" aria-label="AgentSlop Research home" href="../../"><svg viewBox="0 0 26 24" aria-hidden="true"><path d="M0 22 9 2h5L5 22ZM12 22l7-15h5l-7 15Z" fill="currentColor"/></svg>AgentSlop <span>Research</span></a><span class="mast-domain">HACKATHONS &nbsp;/&nbsp; FIELD REPORTS</span><nav aria-label="Site navigation"><a href="../../bioscience/ctg/">CTG Atlas</a><a href="../">Hackathons</a></nav></div></header>
+<main id="main">
+  <div class="cover"><svg class="am-field" viewBox="0 0 1440 620" preserveAspectRatio="none" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="am-etch" x1="0%" x2="100%" y1="0%" y2="30%"><stop stop-color="#65c3bb" stop-opacity=".28"/><stop offset=".32" stop-color="#67a2ad" stop-opacity=".05"/><stop offset=".64" stop-color="#7cacb7" stop-opacity=".24"/><stop offset="1" stop-color="#acd4ca" stop-opacity=".11"/></linearGradient></defs><g fill="none" stroke="url(#am-etch)" stroke-width=".8"><path d="M -188 482 C 24 300.0, 140.0 628, 462 530.0 S 722 130.0, 965 166.0 S 1164 268, 1438 -60.0"/><path d="M -180 487 C 30 298.6, 142.6 635, 471 528.1 S 728 132.4, 974 167.2 S 1174 274, 1451 -57.6"/><path d="M -172 492 C 36 297.2, 145.2 642, 480 526.2 S 734 134.8, 983 168.4 S 1184 280, 1464 -55.2"/><path d="M -164 497 C 42 295.8, 147.8 649, 489 524.3 S 740 137.2, 992 169.6 S 1194 286, 1477 -52.8"/><path d="M -156 502 C 48 294.4, 150.4 656, 498 522.4 S 746 139.6, 1001 170.8 S 1204 292, 1490 -50.4"/><path d="M -148 507 C 54 293.0, 153.0 663, 507 520.5 S 752 142.0, 1010 172.0 S 1214 298, 1503 -48.0"/><path d="M -140 512 C 60 291.6, 155.6 670, 516 518.6 S 758 144.4, 1019 173.2 S 1224 304, 1516 -45.6"/><path d="M -132 517 C 66 290.2, 158.2 677, 525 516.7 S 764 146.8, 1028 174.4 S 1234 310, 1529 -43.2"/><path d="M -124 522 C 72 288.8, 160.8 684, 534 514.8 S 770 149.2, 1037 175.6 S 1244 316, 1542 -40.8"/><path d="M -116 527 C 78 287.4, 163.4 691, 543 512.9 S 776 151.6, 1046 176.8 S 1254 322, 1555 -38.4"/><path d="M -108 532 C 84 286.0, 166.0 698, 552 511.0 S 782 154.0, 1055 178.0 S 1264 328, 1568 -36.0"/><path d="M -100 537 C 90 284.6, 168.6 705, 561 509.1 S 788 156.4, 1064 179.2 S 1274 334, 1581 -33.6"/><path d="M -92 542 C 96 283.2, 171.2 712, 570 507.2 S 794 158.8, 1073 180.4 S 1284 340, 1594 -31.2"/><path d="M -84 547 C 102 281.8, 173.8 719, 579 505.3 S 800 161.2, 1082 181.6 S 1294 346, 1607 -28.8"/><path d="M -76 552 C 108 280.4, 176.4 726, 588 503.4 S 806 163.6, 1091 182.8 S 1304 352, 1620 -26.4"/><path d="M -68 557 C 114 279.0, 179.0 733, 597 501.5 S 812 166.0, 1100 184.0 S 1314 358, 1633 -24.0"/><path d="M -60 562 C 120 277.6, 181.6 740, 606 499.6 S 818 168.4, 1109 185.2 S 1324 364, 1646 -21.6"/><path d="M -52 567 C 126 276.2, 184.2 747, 615 497.7 S 824 170.8, 1118 186.4 S 1334 370, 1659 -19.2"/><path d="M -44 572 C 132 274.8, 186.8 754, 624 495.8 S 830 173.2, 1127 187.6 S 1344 376, 1672 -16.8"/><path d="M -36 577 C 138 273.4, 189.4 761, 633 493.9 S 836 175.6, 1136 188.8 S 1354 382, 1685 -14.4"/><path d="M -28 582 C 144 272.0, 192.0 768, 642 492.0 S 842 178.0, 1145 190.0 S 1364 388, 1698 -12.0"/><path d="M -20 587 C 150 270.6, 194.6 775, 651 490.1 S 848 180.4, 1154 191.2 S 1374 394, 1711 -9.6"/></g><g class="am-iso-light" fill="none" stroke="#a2d1cf" stroke-opacity=".23" stroke-width="1"><path d="M -156 502 C 48 294.4, 150.4 656, 498 522.4 S 746 139.6, 1001 170.8 S 1204 292, 1490 -50.4"/><path d="M -116 527 C 78 287.4, 163.4 691, 543 512.9 S 776 151.6, 1046 176.8 S 1254 322, 1555 -38.4"/></g></svg>
+    <section class="frame atlas-hero" aria-labelledby="page-title">
+      <div class="atlas-intro">
+        <p class="folio"><i aria-hidden="true"></i> SOUP KERNEL CHALLENGE <span>/ GPU SYSTEMS</span></p>
+        <h1 id="page-title">OpenKernel<em>Challenge</em></h1>
+        <p class="atlas-question">How much time and memory can we save when fine-tuning a language model on one NVIDIA T4?</p>
+        <p class="atlas-caution"><b>Measured scope:</b> One saved paired LoRA workload on Kaggle. It is not a contest ranking.</p>
+        <div class="atlas-links"><a class="action mint-action" href="#benchmark">Review the benchmark</a><a class="secondary-action" href="../">All hackathons</a></div>
       </div>
-      <figure class="trace kernel-chart">
-        <div class="kernel-chart-inner">
-          <p class="kernel-kicker">Historical paired benchmark · Kaggle T4</p>
-          <div class="kernel-measure">
+      <figure class="atlas-plate">
+        <p class="plate-top"><b>PAIRED BENCHMARK</b><span>KAGGLE · NVIDIA T4</span></p>
+        <h2>Saved comparison</h2>
+        <p class="plate-sub">Fixed 64-step LoRA workload · Historical result</p>
+        <div class="kernel-measure">
             <h2>End-to-end command time</h2>
             <div class="kernel-series">
               <div class="kernel-bar-copy"><span>Baseline</span><strong>86.39 s</strong></div>
@@ -56,31 +48,19 @@
               <div class="kernel-track" aria-hidden="true"><span class="kernel-bar kernel-memory"></span></div>
             </div>
           </div>
-        </div>
+        
+        <dl class="plate-metrics" aria-label="Paired benchmark summary">
+          <div><dt>End-to-end speedup</dt><dd>1.81×</dd></div>
+          <div><dt>Lower peak GPU memory</dt><dd>84.2%</dd></div>
+          <div><dt>Automated checks passed</dt><dd>10/10</dd></div><div><dt>Regression tests passed</dt><dd>79/79</dd></div>
+        </dl>
         <figcaption>Bars are scaled to the baseline within each metric. Lower is better.</figcaption>
       </figure>
     </section>
-
-    <dl class="study-stats" aria-label="Paired benchmark summary">
-      <div><dt>End-to-end speedup</dt><dd>1.81×</dd></div>
-      <div><dt>Lower peak GPU memory</dt><dd>84.2%</dd></div>
-      <div><dt>Automated checks passed</dt><dd>10/10</dd></div>
-      <div><dt>Regression tests passed</dt><dd>79/79</dd></div>
-    </dl>
-
-    <div class="report-layout">
-      <aside class="contents" aria-label="Page contents">
-        <p class="label">On this page</p>
-        <nav aria-label="On this page">
-          <a href="#benchmark">Benchmark</a>
-          <a href="#implementation">Implementation</a>
-          <a href="#research">Research ledger</a>
-          <a href="#evidence">Evidence and reproduction</a>
-        </nav>
-      </aside>
-
-      <article class="report" aria-label="Soup Kernel Challenge project report">
-        <section id="benchmark" aria-labelledby="benchmark-heading">
+  </div>
+  <nav class="subnav" aria-label="Project chapters"><div class="frame nav-rail"><a href="#benchmark"><span>01</span> Benchmark</a><a href="#implementation"><span>02</span> Implementation</a><a href="#research"><span>03</span> Research ledger</a><a href="#evidence"><span>04</span> Evidence and reproduction</a></div></nav>
+  <article class="report frame" aria-label="Soup Kernel Challenge project report">
+        <section id="benchmark" aria-labelledby="benchmark-heading"><div class="chapter-rail" aria-hidden="true"><b>01</b>Benchmark</div><div class="chapter-body">
           <h2 id="benchmark-heading">A paired result, not a leaderboard claim</h2>
           <p>The saved Kaggle session measured the baseline, then two optimized runs, then the baseline again. It used one T4 for a fixed 64-step LoRA workload based on Qwen2.5-1.5B-Instruct. End-to-end time includes setup, compilation, training, and saving the adapter.</p>
           <div class="table-wrap">
@@ -96,9 +76,9 @@
             </table>
           </div>
           <p class="scope-note"><strong>Scope:</strong> These are historical measurements for the saved configuration. Automated checks are not evidence of a jury decision or contest placement. The current public archive was not benchmarked again after cleanup.</p>
-        </section>
+        </div></section>
 
-        <section id="implementation" aria-labelledby="implementation-heading">
+        <section id="implementation" aria-labelledby="implementation-heading"><div class="chapter-rail" aria-hidden="true"><b>02</b>Implementation</div><div class="chapter-body">
           <h2 id="implementation-heading">What changed in the kernels</h2>
           <dl class="method-list">
             <div><dt>Output head and loss</dt><dd>Process the vocabulary in blocks instead of holding the full logits tensor in memory, while still computing loss and training metrics across the vocabulary.</dd></div>
@@ -106,9 +86,9 @@
             <div><dt>Quantized projections</dt><dd>Share NF4 dequantization across compatible projections and group QKV operations without changing the stored quantization format.</dd></div>
             <div><dt>Normalization and position</dt><dd>Reduce intermediate buffers, type casts, and some work on padding rows in supported RMSNorm and RoPE paths.</dd></div>
           </dl>
-        </section>
+        </div></section>
 
-        <section id="research" aria-labelledby="research-heading">
+        <section id="research" aria-labelledby="research-heading"><div class="chapter-rail" aria-hidden="true"><b>03</b>Ledger</div><div class="chapter-body">
           <h2 id="research-heading">What the research ledger contains</h2>
           <p>The project recorded ideas, small correctness experiments, whole-task runs, and queue attempts separately. The categories overlap and cannot be added together.</p>
           <dl class="method-list">
@@ -123,9 +103,9 @@
             <li><p><strong>Development comparisons:</strong> A 38.12 s training-command result was compared with a saved 38.49 s optimized reference, not a freshly paired baseline. It does not replace the 47.73 s paired result.</p></li>
             <li><p><strong>Negative results:</strong> The archive keeps failed admission checks, an NF4 parity failure, and partial runs. An observed peak from an unfinished job is not a full-run memory result.</p></li>
           </ul>
-        </section>
+        </div></section>
 
-        <section id="evidence" aria-labelledby="evidence-heading">
+        <section id="evidence" aria-labelledby="evidence-heading"><div class="chapter-rail" aria-hidden="true"><b>04</b>Sources</div><div class="chapter-body">
           <h2 id="evidence-heading">Evidence and reproduction</h2>
           <p>The public archive includes the implementation, pinned notebook, run harness, and supporting evidence. The notebook targets one T4 and needs internet access to install dependencies and fetch the model and dataset.</p>
           <ul class="source-list">
@@ -133,13 +113,9 @@
             <li><a href="https://github.com/Danonika/openkernelchallenge/blob/0481e796d20548e70bf3537489ed811bb1a843cf/docs/evidence-final-v1/result.json">Saved benchmark measurements</a> and <a href="https://github.com/Danonika/openkernelchallenge/blob/0481e796d20548e70bf3537489ed811bb1a843cf/docs/evidence-final-v1/checks.json">automated checks</a></li>
             <li><a href="https://github.com/Danonika/openkernelchallenge/blob/0481e796d20548e70bf3537489ed811bb1a843cf/notebooks/Soup-Duo-Final-Submission-v1.ipynb">Reproduction notebook</a> and <a href="https://github.com/Danonika/openkernelchallenge/blob/0481e796d20548e70bf3537489ed811bb1a843cf/README.md#reproduce-the-benchmark">run instructions</a></li>
           </ul>
-        </section>
+        </div></section>
       </article>
-    </div>
-  </main>
-
-  <footer class="site-footer">
-    <div class="shell footer-inner"><span>AgentSlop Research</span><a href="https://github.com/AgentSlop-Si/public">Site source on GitHub</a></div>
-  </footer>
+</main>
+<footer class="page-footer"><div class="frame footer-pair"><div><strong>OpenKernelChallenge</strong><p>AgentSlop Research · Field reports</p></div><div class="foot-actions"><a href="https://github.com/AgentSlop-Si/public">Site source on GitHub</a><a href="#top">Back to cover</a></div></div></footer>
 </body>
 </html>

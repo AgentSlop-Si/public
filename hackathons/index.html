@@ -4,61 +4,41 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="AgentSlop hackathon projects, with technical write-ups, measured results, and public evidence.">
-  <meta name="theme-color" content="#f6f8f3">
+  <meta name="theme-color" content="#101a2c">
   <title>Hackathons · AgentSlop Research</title>
   <link rel="canonical" href="https://agentslop.si/hackathons/">
-  <link rel="stylesheet" href="../assets/research.css">
   <link rel="stylesheet" href="kernel.css">
 </head>
-<body>
-  <a class="skip-link" href="#main">Skip to content</a>
-  <header class="site-header">
-    <div class="shell header-inner">
-      <a class="wordmark" href="../"><span class="brand-mark" aria-hidden="true"></span>AgentSlop</a>
-      <nav class="kernel-nav" aria-label="Main navigation">
-        <a href="../#bioscience">Bioscience</a>
-        <a href="./" aria-current="page">Hackathons</a>
-      </nav>
-    </div>
-  </header>
-
-  <main id="main" class="shell landing">
-    <div class="landing-intro">
-      <h1>Hackathons</h1>
-      <p>What we built under contest constraints, how we measured it, and what the experiments taught us.</p>
-    </div>
-
-    <section aria-labelledby="projects-heading">
-      <h2 class="label" id="projects-heading">Project archive</h2>
-      <article class="study-card kernel-project" aria-labelledby="kernel-card-title">
-        <div class="study-card-copy">
-          <p class="meta">Soup Kernel Challenge <span aria-hidden="true">·</span> GPU systems</p>
-          <h3 id="kernel-card-title" class="kernel-title">OpenKernel<wbr>Challenge</h3>
-          <p>We redesigned kernels for LoRA fine-tuning on one NVIDIA T4. The project report explains the changes, shows the paired run, and separates measured results from experiments that failed or remain unverified.</p>
-          <a class="button" href="openkernelchallenge/">Read the project report</a>
-        </div>
-        <figure class="trace">
-          <div class="kernel-chart-inner">
-            <p class="kernel-kicker">Historical paired benchmark · Kaggle T4</p>
-            <dl class="kernel-card-metrics">
-              <div><dt>End-to-end speedup</dt><dd>1.81×</dd></div>
-              <div><dt>Lower peak GPU memory</dt><dd>84.2%</dd></div>
-            </dl>
-          </div>
-          <figcaption>One saved configuration. The figures are not a contest ranking.</figcaption>
-        </figure>
-      </article>
-      <nav class="kernel-report-links" aria-label="Project report shortcuts">
-        <a id="benchmark" href="openkernelchallenge/#benchmark">Benchmark</a>
-        <a id="implementation" href="openkernelchallenge/#implementation">Implementation</a>
-        <a id="research" href="openkernelchallenge/#research">Research ledger</a>
-        <a id="evidence" href="openkernelchallenge/#evidence">Evidence and reproduction</a>
-      </nav>
+<body id="top">
+<a class="skip" href="#main">Skip to content</a>
+<header class="mast"><div class="frame mast-row"><a class="brand" aria-label="AgentSlop Research home" href="../"><svg viewBox="0 0 26 24" aria-hidden="true"><path d="M0 22 9 2h5L5 22ZM12 22l7-15h5l-7 15Z" fill="currentColor"/></svg>AgentSlop <span>Research</span></a><span class="mast-domain">HACKATHONS &nbsp;/&nbsp; FIELD REPORTS</span><nav aria-label="Site navigation"><a href="../bioscience/ctg/">CTG Atlas</a><a href="./" aria-current="page">Hackathons</a></nav></div></header>
+<main id="main">
+  <div class="cover"><svg class="am-field" viewBox="0 0 1440 620" preserveAspectRatio="none" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="am-etch" x1="0%" x2="100%" y1="0%" y2="30%"><stop stop-color="#65c3bb" stop-opacity=".28"/><stop offset=".32" stop-color="#67a2ad" stop-opacity=".05"/><stop offset=".64" stop-color="#7cacb7" stop-opacity=".24"/><stop offset="1" stop-color="#acd4ca" stop-opacity=".11"/></linearGradient></defs><g fill="none" stroke="url(#am-etch)" stroke-width=".8"><path d="M -188 482 C 24 300.0, 140.0 628, 462 530.0 S 722 130.0, 965 166.0 S 1164 268, 1438 -60.0"/><path d="M -180 487 C 30 298.6, 142.6 635, 471 528.1 S 728 132.4, 974 167.2 S 1174 274, 1451 -57.6"/><path d="M -172 492 C 36 297.2, 145.2 642, 480 526.2 S 734 134.8, 983 168.4 S 1184 280, 1464 -55.2"/><path d="M -164 497 C 42 295.8, 147.8 649, 489 524.3 S 740 137.2, 992 169.6 S 1194 286, 1477 -52.8"/><path d="M -156 502 C 48 294.4, 150.4 656, 498 522.4 S 746 139.6, 1001 170.8 S 1204 292, 1490 -50.4"/><path d="M -148 507 C 54 293.0, 153.0 663, 507 520.5 S 752 142.0, 1010 172.0 S 1214 298, 1503 -48.0"/><path d="M -140 512 C 60 291.6, 155.6 670, 516 518.6 S 758 144.4, 1019 173.2 S 1224 304, 1516 -45.6"/><path d="M -132 517 C 66 290.2, 158.2 677, 525 516.7 S 764 146.8, 1028 174.4 S 1234 310, 1529 -43.2"/><path d="M -124 522 C 72 288.8, 160.8 684, 534 514.8 S 770 149.2, 1037 175.6 S 1244 316, 1542 -40.8"/><path d="M -116 527 C 78 287.4, 163.4 691, 543 512.9 S 776 151.6, 1046 176.8 S 1254 322, 1555 -38.4"/><path d="M -108 532 C 84 286.0, 166.0 698, 552 511.0 S 782 154.0, 1055 178.0 S 1264 328, 1568 -36.0"/><path d="M -100 537 C 90 284.6, 168.6 705, 561 509.1 S 788 156.4, 1064 179.2 S 1274 334, 1581 -33.6"/><path d="M -92 542 C 96 283.2, 171.2 712, 570 507.2 S 794 158.8, 1073 180.4 S 1284 340, 1594 -31.2"/><path d="M -84 547 C 102 281.8, 173.8 719, 579 505.3 S 800 161.2, 1082 181.6 S 1294 346, 1607 -28.8"/><path d="M -76 552 C 108 280.4, 176.4 726, 588 503.4 S 806 163.6, 1091 182.8 S 1304 352, 1620 -26.4"/><path d="M -68 557 C 114 279.0, 179.0 733, 597 501.5 S 812 166.0, 1100 184.0 S 1314 358, 1633 -24.0"/><path d="M -60 562 C 120 277.6, 181.6 740, 606 499.6 S 818 168.4, 1109 185.2 S 1324 364, 1646 -21.6"/><path d="M -52 567 C 126 276.2, 184.2 747, 615 497.7 S 824 170.8, 1118 186.4 S 1334 370, 1659 -19.2"/><path d="M -44 572 C 132 274.8, 186.8 754, 624 495.8 S 830 173.2, 1127 187.6 S 1344 376, 1672 -16.8"/><path d="M -36 577 C 138 273.4, 189.4 761, 633 493.9 S 836 175.6, 1136 188.8 S 1354 382, 1685 -14.4"/><path d="M -28 582 C 144 272.0, 192.0 768, 642 492.0 S 842 178.0, 1145 190.0 S 1364 388, 1698 -12.0"/><path d="M -20 587 C 150 270.6, 194.6 775, 651 490.1 S 848 180.4, 1154 191.2 S 1374 394, 1711 -9.6"/></g><g class="am-iso-light" fill="none" stroke="#a2d1cf" stroke-opacity=".23" stroke-width="1"><path d="M -156 502 C 48 294.4, 150.4 656, 498 522.4 S 746 139.6, 1001 170.8 S 1204 292, 1490 -50.4"/><path d="M -116 527 C 78 287.4, 163.4 691, 543 512.9 S 776 151.6, 1046 176.8 S 1254 322, 1555 -38.4"/></g></svg>
+    <section class="frame atlas-hero" aria-labelledby="page-title">
+      <div class="atlas-intro">
+        <p class="folio"><i aria-hidden="true"></i> AGENTSLOP RESEARCH <span>/ GPU SYSTEMS</span></p>
+        <h1 id="page-title">Hackathon<em>field reports</em><span class="sr-only"> (Hackathons)</span></h1>
+        <p class="atlas-question">What we built under contest constraints, how we measured it, and what the experiments taught us.</p>
+        <p class="atlas-caution"><b>Featured project:</b> OpenKernelChallenge, a LoRA kernel optimization study on one NVIDIA T4.</p>
+        <div class="atlas-links"><a class="action mint-action" href="openkernelchallenge/">Read OpenKernelChallenge</a><a class="secondary-action" href="#projects">Project archive</a></div>
+      </div>
+      <figure class="atlas-plate">
+        <p class="plate-top"><b>FEATURED PROJECT</b><span>KAGGLE · NVIDIA T4</span></p>
+        <h2>OpenKernel<wbr>Challenge</h2>
+        <p class="plate-sub">Soup Kernel Challenge · LoRA kernel optimization</p>
+        
+        <dl class="plate-metrics" aria-label="Paired benchmark summary">
+          <div><dt>End-to-end speedup</dt><dd>1.81×</dd></div>
+          <div><dt>Lower peak GPU memory</dt><dd>84.2%</dd></div>
+          
+        </dl>
+        <figcaption>Historical paired benchmark, not a contest ranking.</figcaption>
+      </figure>
     </section>
-  </main>
-
-  <footer class="site-footer">
-    <div class="shell footer-inner"><span>AgentSlop Research</span><a href="https://github.com/AgentSlop-Si/public">Site source on GitHub</a></div>
-  </footer>
+  </div>
+  <nav class="subnav" aria-label="Project report shortcuts"><div class="frame nav-rail"><a id="benchmark" href="openkernelchallenge/#benchmark"><span>01</span> Benchmark</a><a id="implementation" href="openkernelchallenge/#implementation"><span>02</span> Implementation</a><a id="research" href="openkernelchallenge/#research"><span>03</span> Research ledger</a><a id="evidence" href="openkernelchallenge/#evidence"><span>04</span> Evidence and reproduction</a></div></nav>
+  <section id="projects" class="frame project-area" aria-labelledby="projects-title"><p class="folio"><i aria-hidden="true"></i> PROJECT ARCHIVE</p><h2 id="projects-title">Project reports</h2><article class="project-card"><div><p class="label">Soup Kernel Challenge · GPU systems</p><h3>OpenKernel<wbr>Challenge</h3><p>We redesigned kernels for LoRA fine-tuning on one NVIDIA T4. The report covers the implementation, the paired runs, and experiments that failed or remain unverified.</p><a class="action dark-action" href="openkernelchallenge/">Read the project report</a></div><div class="project-tags"><p class="label">Research coverage</p><ul><li>T4 benchmark and test results</li><li>Kernel implementation notes</li><li>Research ledger and reproduction instructions</li></ul></div></article></section>
+</main>
+<footer class="page-footer"><div class="frame footer-pair"><div><strong>Hackathons</strong><p>AgentSlop Research · Field reports</p></div><div class="foot-actions"><a href="https://github.com/AgentSlop-Si/public">Site source on GitHub</a><a href="#top">Back to cover</a></div></div></footer>
 </body>
 </html>
