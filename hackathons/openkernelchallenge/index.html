@@ -8,8 +8,9 @@
   <title>OpenKernelChallenge · AgentSlop Research</title>
   <link rel="canonical" href="https://agentslop.si/hackathons/openkernelchallenge/">
   <link rel="stylesheet" href="../kernel.css">
-  <link rel="stylesheet" href="ledger.css?v=11">
-  <script defer src="ledger.js?v=11"></script>
+  <link rel="stylesheet" href="ledger.css?v=12">
+  <script defer src="ledger-navigation.js?v=12"></script>
+  <script defer src="ledger.js?v=12"></script>
 </head>
 <body id="top">
 <a class="skip" href="#main">Skip to content</a>
@@ -92,7 +93,7 @@
 
         <section id="research" aria-labelledby="research-heading"><span class="chapter-watermark" aria-hidden="true">03</span><div class="chapter-rail" aria-hidden="true"><b>03</b>Ledger</div><div class="chapter-body">
           <h2 id="research-heading">Explore the public research ledger</h2>
-          <p>Find a public record by ID, title, category, or status. Each record opens its own notes and source.</p>
+          <p>Find a public record by ID, title, category, or status. Each record opens a full page with its notes and public source.</p>
           <div class="ledger" id="public-ledger" aria-labelledby="ledger-title">
             <header class="ledger-head">
               <div>
@@ -105,24 +106,6 @@
                 <a href="ledger-data.json" download>Download JSON</a>
               </nav>
             </header>
-            <article id="ledger-detail" class="ledger-detail" aria-labelledby="ledger-detail-title" hidden>
-              <a class="ledger-return" href="./#public-ledger" id="ledger-return">Back to all records</a>
-              <p class="label" id="ledger-detail-type"></p>
-              <h4 id="ledger-detail-title" tabindex="-1"></h4>
-              <dl class="ledger-detail-meta">
-                <div><dt>Record ID</dt><dd id="ledger-detail-id"></dd></div>
-                <div><dt>Category</dt><dd id="ledger-detail-category"></dd></div>
-                <div><dt>Status</dt><dd id="ledger-detail-status"></dd></div>
-              </dl>
-              <p class="ledger-detail-notes" id="ledger-detail-notes"></p>
-              <a class="ledger-source" id="ledger-detail-source" hidden>Open public evidence</a>
-              <div class="ledger-share" id="ledger-share" hidden>
-                <button type="button" id="ledger-copy">Copy record link</button>
-                <label class="ledger-share-fallback" id="ledger-share-fallback" hidden>Record URL<input id="ledger-share-url" type="url" readonly></label>
-                <span id="ledger-copy-status" role="status"></span>
-              </div>
-              <nav class="ledger-neighbors" id="ledger-neighbors" aria-label="Nearby records in this category" hidden></nav>
-            </article>
             <nav class="ledger-quick-categories" id="ledger-quick-categories" aria-label="Quick category filters" hidden></nav>
             <div class="ledger-controls" id="ledger-controls" hidden>
               <label class="ledger-search">Search records<input id="ledger-search" type="search" placeholder="ID, title, status or notes" spellcheck="false" autocomplete="off"></label>

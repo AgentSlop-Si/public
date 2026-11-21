@@ -1,0 +1,128 @@
+/* The result is a standalone document: a full-width cover over a layered report. */
+.kernel-record-page {
+  --record-paper: #eaf1f1;
+  --record-plate: #f5f9f8;
+  --record-line: #b3c7c9;
+  --record-grid: #165e6113;
+  --record-overlay: radial-gradient(ellipse at 93% 0,#d0dedf,transparent 56%),
+                    radial-gradient(ellipse at 11% 67%,#d8e5e3,transparent 46%);
+  background-color: var(--record-paper);
+  background-image: var(--record-overlay),
+                    repeating-linear-gradient(0deg,transparent 0 35px,var(--record-grid) 35px 36px),
+                    repeating-linear-gradient(90deg,transparent 0 35px,var(--record-grid) 35px 36px);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+.kernel-record-page [hidden] { display: none !important }
+.kernel-record-page main { flex: 1 }
+.record-mast-row { justify-content: space-between; min-height: 64px; flex-wrap: wrap }
+.mast .record-return {
+  display: inline-flex; align-items: center; min-height: 44px;
+  color: var(--arc); font-size: .875rem; font-weight: 650; margin-inline-start: auto;
+}
+.record-intro { padding-block: clamp(30px, 6vw, 80px); position: relative }
+.record-cover {
+  background-image: radial-gradient(ellipse at 86% 22%, #24515b88, transparent 54%),
+                    repeating-linear-gradient(0deg,transparent 0 35px,#a1f0d617 35px 36px),
+                    repeating-linear-gradient(90deg,transparent 0 35px,#a1f0d617 35px 36px),
+                    linear-gradient(112deg,#091722 25%,#102939);
+}
+.record-waves { opacity: .9 }
+.record-breadcrumb { display:flex; flex-wrap:wrap; align-items:center; gap:.28rem .7rem; margin-bottom: clamp(20px,3.3vw,44px); font-size:.875rem;color:#cadce4 }
+.record-breadcrumb a { color:#cef1e5; display:inline-flex; align-items:center; min-height:44px }
+.record-intro .folio { margin-bottom:14px }
+.record-intro .folio span { color:var(--arc) }
+.record-intro h1 {
+  color:#f0f7f2; max-width:25ch; line-height:1.02; letter-spacing:-.047em;
+  font-size:clamp(2.05rem,5vw,5rem); overflow-wrap:anywhere; text-wrap:balance;
+}
+.record-facts {
+  display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); width:min(100%,860px);
+  margin-top:clamp(24px,4vw,52px); gap:2px; padding:2px;
+  border:1px solid #638d96; background:#678d9359; border-radius:10px;
+}
+.record-facts div { background:#112532; padding:14px clamp(12px,2vw,22px); min-width:0 }
+.record-facts div:first-child { border-radius:7px 0 0 7px }
+.record-facts div:last-child { border-radius:0 7px 7px 0 }
+.record-facts dt { font:600 .75rem/1.4 var(--mono); letter-spacing:.08em; color:#b5d5d8; text-transform:uppercase }
+.record-facts dd { font-size:.96rem; margin-top:4px; color:#f1fcf4; overflow-wrap:anywhere }
+.record-layout {
+  display:grid; grid-template-columns:minmax(0,1.75fr) minmax(0,1fr); align-items:start;
+  gap:clamp(16px,2.5vw,30px); padding-block:clamp(26px,4.4vw,62px);
+}
+.record-panel {
+  position:relative; isolation:isolate; overflow:hidden; min-width:0;
+  padding:clamp(18px,3vw,40px); border:1px solid var(--record-line); border-radius:12px;
+  background:
+    radial-gradient(ellipse at 96% 0%,#a7cbc933,transparent 48%),
+    linear-gradient(115deg,transparent 70%,#adbadc19),var(--record-plate);
+  box-shadow:0 14px 36px -24px #153b455e,inset 0 1px #fcffffb0;
+}
+.record-panel::before {
+  content:""; position:absolute; top:0; left:0; width:120px; height:3px;
+  background:linear-gradient(90deg,#227873,#a0b7de,transparent);
+}
+.record-number {
+  position:absolute; z-index:-1; top:0; right:13px; color:#245d661b;
+  font:400 clamp(4.5rem,8vw,8rem)/1 var(--serif); letter-spacing:-.095em;
+}
+.record-panel h2 { font-size:clamp(1.65rem,3vw,2.65rem); letter-spacing:-.045em; margin:7px 0 13px }
+.record-panel p:not(.label) { color:var(--sub); overflow-wrap:anywhere }
+.record-notes p:not(.label) { white-space:pre-wrap; max-width:70ch; line-height:1.65 }
+.record-evidence .record-source-link { margin-top:16px }
+.record-source-link { gap:10px }
+.record-share { margin-top:18px; padding-top:16px; border-top:1px solid var(--record-line) }
+.record-share button {
+  min-height:44px; border:1px solid #648b90; border-radius:7px; padding:8px 14px;
+  background:transparent; color:var(--pine); font:650 .875rem/1.2 var(--sans); cursor:pointer;
+}
+.record-share button:hover { background:#39858325 }
+.record-share label { display:grid; gap:6px; margin-top:10px; font-size:.875rem }
+.record-share input {
+  min-width:0; width:100%; border:1px solid var(--record-line); border-radius:5px;
+  padding:10px; background:var(--record-plate); color:var(--ink); font:inherit;
+}
+#record-copy-status:not(:empty) { margin-top:8px; font-size:.875rem }
+.record-related { grid-column:1/-1 }
+#record-neighbors { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr)); gap:12px; margin-top:18px }
+#record-neighbors a {
+  display:grid; align-content:start; gap:5px; padding:14px; min-height:64px; border-radius:8px;
+  background:#2a6d7010; border:1px solid var(--record-line); color:var(--ink); text-decoration:none; overflow-wrap:anywhere;
+}
+#record-neighbors a:hover { border-color:var(--pine); background:#2a6d7022 }
+#record-neighbors a span { color:var(--pine); font:600 .75rem/1.4 var(--mono) }
+#record-neighbors a strong { font-weight:650; text-decoration:underline; text-decoration-color:#568884; text-underline-offset:3px }
+.record-message { padding-block:80px; font-size:clamp(1rem,2vw,1.3rem) }
+.record-message .action { margin-top:10px; cursor:pointer }
+@media (max-width:760px) {
+  .record-layout { grid-template-columns:minmax(0,1fr) }
+  .record-mast-row .mast-domain { display:none }
+}
+@media (max-width:540px) {
+  .record-mast-row { column-gap:8px }
+  .mast .record-return { margin-inline-start:0 }
+  .record-facts { grid-template-columns:minmax(0,1fr) }
+  .record-facts div { display:grid; grid-template-columns:minmax(74px,.6fr) minmax(0,1fr); align-items:baseline; gap:7px; padding:8px 10px }
+  .record-facts div:first-child { border-radius:7px 7px 0 0 }
+  .record-facts div:last-child { border-radius:0 0 7px 7px }
+  .record-facts dd { margin:0 }
+  .record-intro { padding-block:20px 26px }
+}
+@media (prefers-color-scheme:dark) {
+  .kernel-record-page {
+    color-scheme:dark;
+    --record-paper:#0e1e2a;--record-plate:#172e39;--record-line:#59747a;--record-grid:#a0ded51c;
+    --record-overlay:radial-gradient(ellipse at 94% 5%,#183744,transparent 56%),
+                     radial-gradient(ellipse at 0 70%,#192942,transparent 47%);
+    --ink:#e7f3f1;--sub:#b9ccd2;--pine:#a9ecdb;
+    color:var(--ink);
+  }
+  .record-panel { box-shadow:0 14px 36px -24px #000,inset 0 1px #caefec33 }
+  .record-number { color:#acebd330 }
+  .kernel-record-page .skip { background:#0e1e2a }
+}
+@media (forced-colors:active) {
+  .record-number,.record-waves { display:none }
+  .record-panel,#record-neighbors a,.record-share button { border-color:CanvasText }
+}

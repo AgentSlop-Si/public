@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A public OpenKernelChallenge research record with notes, registry context, and pinned evidence.">
+  <meta name="theme-color" content="#0a1724">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>Research record · OpenKernelChallenge</title>
+  <link rel="stylesheet" href="../../kernel.css">
+  <link rel="stylesheet" href="record.css?v=12">
+  <script defer src="../ledger-navigation.js?v=12"></script>
+  <script defer src="record.js?v=12"></script>
+</head>
+<body class="kernel-record-page">
+<a class="skip" href="#record-main">Skip to the record</a>
+<header class="mast">
+  <div class="frame mast-row record-mast-row">
+    <a class="brand" aria-label="AgentSlop Research home" href="../../../"><svg viewBox="0 0 26 24" aria-hidden="true" focusable="false"><path d="M0 22 9 2h5L5 22ZM12 22l7-15h5l-7 15Z" fill="currentColor"/></svg>AgentSlop <span>Research</span></a>
+    <span class="mast-domain">HACKATHONS &nbsp;/&nbsp; RESEARCH REGISTRY</span>
+    <a class="record-return" href="../#public-ledger">← Back to research table</a>
+  </div>
+</header>
+<main id="record-main">
+  <div id="record-message" class="frame record-message">
+    <p id="record-status" role="status">Loading the research record…</p>
+    <button id="record-retry" class="action mint-action" type="button" hidden>Try again</button>
+    <noscript><p>Enable JavaScript to open a record, or <a href="../ledger-data.csv">download the public CSV</a>.</p></noscript>
+  </div>
+  <article id="record-article" hidden aria-labelledby="record-title">
+    <header class="cover record-cover">
+      <svg class="am-field record-waves" viewBox="0 0 1320 430" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+        <defs><linearGradient id="wave-trace" x1="0%" x2="100%" y1="70%" y2="10%"><stop stop-color="#5c9e9b" stop-opacity=".12"/><stop offset=".63" stop-color="#74ddb9" stop-opacity=".33"/><stop offset="1" stop-color="#abaabf" stop-opacity=".56"/></linearGradient></defs>
+        <g stroke="url(#wave-trace)" stroke-width="1" fill="none">
+          <path id="wave" d="M-80 375 C229 444 449 171 680 252 S955 382 1420 52"/>
+          <use href="#wave" transform="translate(0 -14)"/><use href="#wave" transform="translate(0 -28)"/><use href="#wave" transform="translate(0 -42)"/><use href="#wave" transform="translate(0 -56)"/><use href="#wave" transform="translate(0 -70)"/><use href="#wave" transform="translate(0 -84)"/><use href="#wave" transform="translate(0 -98)"/><use href="#wave" transform="translate(0 -112)"/><use href="#wave" transform="translate(0 -126)"/><use href="#wave" transform="translate(0 -140)"/><use href="#wave" transform="translate(0 -154)"/><use href="#wave" transform="translate(0 -168)"/>
+        </g>
+      </svg>
+      <div class="frame record-intro">
+        <nav class="record-breadcrumb" aria-label="Breadcrumb">
+          <a href="../../">Hackathons</a><span aria-hidden="true">/</span><a href="../">OpenKernelChallenge</a><span aria-hidden="true">/</span><span aria-current="page">Research record</span>
+        </nav>
+        <p class="folio"><i aria-hidden="true"></i><span id="record-kicker"></span></p>
+        <h1 id="record-title"></h1>
+        <dl class="record-facts">
+          <div><dt>Record ID</dt><dd id="record-id"></dd></div>
+          <div><dt>Category</dt><dd id="record-category"></dd></div>
+          <div><dt>Status</dt><dd id="record-state"></dd></div>
+        </dl>
+      </div>
+    </header>
+    <div class="frame record-layout">
+      <section class="record-panel record-notes" aria-labelledby="record-notes-title">
+        <span class="record-number" aria-hidden="true">01</span>
+        <p class="label">Research registry</p>
+        <h2 id="record-notes-title">Record notes</h2>
+        <p id="record-notes"></p>
+      </section>
+      <section class="record-panel record-evidence" aria-labelledby="record-evidence-title">
+        <span class="record-number" aria-hidden="true">02</span>
+        <p class="label">Traceability</p>
+        <h2 id="record-evidence-title">Public evidence</h2>
+        <p id="record-source-note"></p>
+        <a class="action record-source-link" id="record-source" hidden>Open pinned source</a>
+        <div class="record-share">
+          <button id="record-copy" type="button">Copy record link</button>
+          <label id="record-share-fallback" hidden>Record URL<input id="record-share-url" type="url" readonly></label>
+          <p id="record-copy-status" role="status"></p>
+        </div>
+      </section>
+      <section class="record-panel record-related" id="record-related-panel" aria-labelledby="record-related-title" hidden>
+        <span class="record-number" aria-hidden="true">03</span>
+        <p class="label">Research registry</p>
+        <h2 id="record-related-title">Nearby records</h2>
+        <p>Previous and next in the same category, sorted by ID.</p>
+        <nav aria-label="Nearby records in this category" id="record-neighbors"></nav>
+      </section>
+    </div>
+  </article>
+</main>
+<footer class="page-footer">
+  <div class="frame footer-pair"><div><strong>OpenKernelChallenge</strong><p>AgentSlop Research · Public research registry</p></div><div class="foot-actions"><a class="record-return" href="../#public-ledger">Back to research table</a><a href="../ledger-data.json">Public snapshot</a></div></div>
+</footer>
+</body>
+</html>

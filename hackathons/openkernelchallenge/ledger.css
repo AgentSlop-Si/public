@@ -177,32 +177,7 @@
   text-decoration: none;
 }
 .ledger-record-link:focus-visible { outline-offset: 1px; }
-.ledger-detail {
-  position: relative;
-  padding: clamp(17px, 3.2vw, 38px);
-  overflow-wrap: anywhere;
-}
-.ledger-detail .label { margin-top: .95rem; }
-.ledger-detail h4 {
-  margin: .38rem 0 .9rem;
-  color: var(--ink);
-  font: normal clamp(1.85rem, 4.1vw, 3.1rem)/1.12 var(--serif);
-  letter-spacing: -.035em;
-}
-.ledger-detail h4:focus { outline: none; }
-.ledger-detail-meta {
-  display: grid;
-  grid-template-columns: repeat(auto-fit,minmax(min(100%,9rem),1fr));
-  gap: 1px;
-  border: 1px solid var(--rule);
-  background: var(--rule);
-  margin-block: .85rem 1.15rem;
-}
-.ledger-detail-meta > div { background: #edf4f2; padding: .65rem .8rem; }
-.ledger-detail-meta dt { color: var(--sub); font-size: .85rem; font-weight: 650; }
-.ledger-detail-meta dd { color: var(--ink); margin-top: .12rem; }
-.ledger-detail-notes { max-width: 78ch; white-space: pre-wrap; }
-.ledger-return,.ledger-source {
+.ledger-source {
   display: inline-flex;
   align-items: center;
   min-height: 44px;
@@ -216,7 +191,6 @@
   text-decoration: none;
 }
 .ledger-source { margin-top: 1rem; background: #123641; color: #d5f7ed; }
-.ledger-return:hover { background: #d8eee9; }
 .ledger-source:hover { background: #205657; color: #fff; }
 @media (max-width: 1050px) {
   .ledger table { min-width: 0; table-layout: auto; }
@@ -273,15 +247,6 @@
 .ledger-retry button{min-height:44px;border:1px solid #709496;border-radius:5px;background:#edf4f2;color:#084b51;padding:.35rem .65rem;font:650 .9rem var(--sans);cursor:pointer}
 .ledger-retry button:hover{background:#d8eee9}
 
-.ledger-neighbors{display:flex;flex-wrap:wrap;gap:.25rem 1.2rem;border-top:1px solid var(--rule);margin-top:1.2rem;padding-top:.5rem}
-.ledger-neighbors a{display:inline-flex;align-items:center;min-height:44px;font:650 .9rem var(--sans)}
-
-.ledger-share{display:flex;align-items:center;flex-wrap:wrap;gap:.45rem .8rem;margin-top:1rem}
-.ledger-share button{min-height:44px;border:1px solid #709496;border-radius:5px;background:#edf4f2;color:#084b51;padding:.35rem .65rem;font:650 .9rem var(--sans);cursor:pointer}
-.ledger-share button:hover{background:#d8eee9}
-.ledger-share-fallback{display:grid;flex:1 0 100%;gap:5px;font-size:.9rem}
-.ledger-share-fallback input{min-height:44px;border:1px solid #709496;background:#fff;color:var(--ink);padding:.35rem .65rem;font:inherit}
-
 .ledger-card-key{display:none}
 @media(max-width:970px){
   .ledger-card-key{display:inline;color:var(--sub);font:650 .74rem var(--sans);margin-right:.3rem}
@@ -293,7 +258,6 @@
 /* Tie the ledger controls back to the Atlas chapter system. */
 .ledger{border-color:#9bb4b5;box-shadow:inset 0 1px #fff}
 .ledger-head{border-bottom:1px solid #49636c}
-.ledger-detail{background:linear-gradient(160deg,#fcfdfb 0%,#f0f7f4 100%)}
 .ledger-pages:focus-within,.ledger-retry:focus-within{background:#e9f2ef}
 .ledger-empty{padding-block:1.2rem !important}
 @media(max-width:970px){
@@ -304,7 +268,7 @@
 }
 @media(max-width:540px){.ledger-quick-categories{display:none}}
 @media print{
-  .ledger-quick-categories,.ledger-neighbors,.ledger-share,.ledger-downloads,.ledger-controls,.ledger-pages,.ledger-guide{display:none!important}
+  .ledger-quick-categories,.ledger-downloads,.ledger-controls,.ledger-pages,.ledger-guide{display:none!important}
   .ledger-head{background:#fff;color:#112d38}
   .ledger-head .label,.ledger-scope{color:#145e61}
 }
@@ -335,3 +299,188 @@
 }
 
 @media(max-width:375px) { .ledger-advanced-grid { grid-template-columns:minmax(0,1fr); } }
+
+/* Research paper: soft technical grid, chapter fields, and instrument surfaces. */
+:root {
+  color-scheme: light dark;
+  --ledger-paper: #e8f0f1;
+  --ledger-shell: #f2f7f6;
+  --ledger-well: #e0eceb;
+  --ledger-line: #9bb9bd;
+  --ledger-control-line: #66888d;
+  --ledger-glint: #f5fffc;
+  --ledger-stripe: #e6efef;
+  --ledger-hover: #dbece8;
+  --ledger-accent: #145e61;
+  --ledger-grid: #537a8015;
+  --ledger-aura: #c1e2dd;
+  --ledger-lilac: #d4d9eb;
+  --ledger-folio: #225568;
+  --ledger-caution: #eee5d5;
+  --ledger-caution-edge: #a7775b;
+  --ledger-active: #15595b;
+  --ledger-active-text: #ecfffa;
+  --ledger-pass: #d7eee2;
+  --ledger-pass-text: #145245;
+  --ledger-shadow: #12374722;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ink: #e7f3f1;
+    --sub: #b9ccd2;
+    --pine: #a9ecdb;
+    --rule: #39535c;
+    --surface: #172e39;
+    --ledger-paper: #0e1e2a;
+    --ledger-shell: #172e39;
+    --ledger-well: #1e3944;
+    --ledger-line: #57757e;
+    --ledger-control-line: #7898a0;
+    --ledger-glint: #aef5e11e;
+    --ledger-stripe: #1b333e;
+    --ledger-hover: #254b50;
+    --ledger-accent: #a9ecdb;
+    --ledger-grid: #98cccb18;
+    --ledger-aura: #1c414b;
+    --ledger-lilac: #2a324f;
+    --ledger-folio: #9adacc;
+    --ledger-caution: #342d2c;
+    --ledger-caution-edge: #d5a78b;
+    --ledger-active: #a9ecdb;
+    --ledger-active-text: #102b2c;
+    --ledger-pass: #214c42;
+    --ledger-pass-text: #b9f2d7;
+    --ledger-shadow: #0007;
+  }
+  .report :focus-visible { outline-color: #ffca85; }
+  .skip { background: var(--ledger-shell); }
+}
+body {
+  background-color: var(--ledger-paper);
+  background-image:
+    linear-gradient(90deg, var(--ledger-grid) 1px, transparent 1px),
+    linear-gradient(var(--ledger-grid) 1px, transparent 1px),
+    radial-gradient(ellipse at 96% 11%, var(--ledger-lilac), transparent 33rem),
+    radial-gradient(ellipse at 0 23%, var(--ledger-aura), transparent 35rem),
+    radial-gradient(ellipse at 100% 76%, var(--ledger-aura), transparent 42rem);
+  background-size: 32px 32px, 32px 32px, auto, auto, auto;
+}
+.report section {
+  --chapter-aura: var(--ledger-aura);
+  border-bottom-color: var(--ledger-line);
+}
+.report :is(#implementation, #evidence) { --chapter-aura: var(--ledger-lilac); }
+.report section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, var(--ledger-line) 0 1px, transparent 1px calc(100% - 1px), var(--ledger-line) calc(100% - 1px)) right 0 top 0 / 8rem .34rem no-repeat,
+    repeating-linear-gradient(90deg, var(--ledger-line) 0 1px, transparent 1px 8px) right 0 top 0 / 8rem .34rem no-repeat,
+    radial-gradient(ellipse at 100% 0, var(--chapter-aura) 0%, transparent min(60%, 34rem)),
+    linear-gradient(110deg, transparent 0%, var(--ledger-shell) 49%, transparent 93%);
+  opacity: .8;
+}
+.chapter-watermark {
+  color: var(--ledger-folio);
+  opacity: .17;
+}
+.chapter-rail { color: var(--sub); border-color: var(--ledger-line); }
+.chapter-rail b { color: var(--ledger-accent); }
+.report .scope-note { border-left-color: var(--ledger-caution-edge); background-color: var(--ledger-caution); }
+.report .table-wrap,
+.ledger {
+  border: 1px solid var(--ledger-line);
+  background: var(--ledger-shell);
+  box-shadow: inset 0 1px var(--ledger-glint), 0 14px 28px -19px var(--ledger-shadow);
+}
+.report .table-wrap { border-radius: 8px; }
+.report thead th { background: var(--ledger-well); color: var(--ink); }
+.report .table-wrap tbody tr:nth-child(even) > * { background: var(--ledger-stripe); }
+.report .table-wrap td:last-child { color: var(--ledger-accent); font-weight: 700; }
+.ledger-head {
+  background:
+    repeating-linear-gradient(90deg, #baf7e00b 0 1px, transparent 1px 20px),
+    radial-gradient(ellipse at 92% 0%, #2a4b59, transparent 72%),
+    linear-gradient(115deg, #102837, #143c47);
+}
+.ledger-controls,
+.ledger-quick-categories,
+.ledger-pages-top {
+  background: linear-gradient(114deg, var(--ledger-well), var(--ledger-shell));
+}
+.ledger-controls :is(input, select),
+.ledger-controls button,
+.ledger-pages button,
+.ledger-guide button,
+.ledger-quick-categories button,
+.ledger-filter-disclosure,
+.ledger-retry button {
+  background: var(--ledger-shell);
+  color: var(--ink);
+  border-color: var(--ledger-control-line);
+}
+.ledger-filter-disclosure > summary,
+.ledger-record-link,
+.ledger th button:hover { color: var(--ledger-accent); }
+.ledger-quick-categories button[aria-pressed="true"],
+.ledger-quick-categories button:hover {
+  background: var(--ledger-active);
+  color: var(--ledger-active-text);
+  border-color: var(--ledger-active);
+}
+.ledger-quick-categories button span,
+.ledger-status-tag {
+  background: var(--ledger-well);
+  color: var(--ink);
+  border-color: var(--ledger-line);
+}
+.ledger-status-measured {
+  background: var(--ledger-pass);
+  color: var(--ledger-pass-text);
+}
+.ledger tr:nth-child(even) :is(td, th[scope=row]) { background: var(--ledger-stripe); }
+.ledger-record:is(:hover, :focus-within) :is(td, th[scope=row]),
+.ledger-controls button:hover,
+.ledger-pages button:not(:disabled):hover,
+.ledger-guide button:not(:disabled):hover,
+.ledger-retry button:hover,
+.ledger-pages:focus-within,
+.ledger-retry:focus-within { background: var(--ledger-hover); }
+@media (max-width: 970px) {
+  .ledger tr:nth-child(even) :is(td, th[scope=row]),
+  .ledger-record:is(:hover, :focus-within) :is(td, th[scope=row]) { background: transparent; }
+  .ledger-record:nth-child(even) { background: var(--ledger-stripe); }
+  .ledger-record:is(:hover, :focus-within) { background: var(--ledger-hover); }
+}
+@media (max-width: 690px) {
+  body { background-size: 24px 24px, 24px 24px, auto, auto, auto; }
+  .report section::before { background-size: 4rem .34rem, 4rem .34rem, auto, auto; }
+}
+@media (forced-colors: active), print {
+  body, .report section::before, .chapter-watermark { background: none; }
+  .report section::before, .chapter-watermark { display: none; }
+  .report .table-wrap, .ledger { box-shadow: none; }
+}
+@media print {
+  :root {
+    color-scheme: light;
+    --ink: #112d38;
+    --sub: #465d65;
+    --pine: #145e61;
+    --rule: #c7d4d4;
+    --surface: white;
+    --ledger-shell: white;
+    --ledger-well: #e0eceb;
+    --ledger-stripe: #f2f7f6;
+    --ledger-line: #9bb9bd;
+    --ledger-accent: #145e61;
+    --ledger-caution: #eee5d5;
+    --ledger-caution-edge: #a7775b;
+    --ledger-pass: #d7eee2;
+    --ledger-pass-text: #145245;
+  }
+  .ledger-head { background: none; }
+}

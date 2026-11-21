@@ -1,6 +1,15 @@
 (() => {
   "use strict";
 
+  const {key: recordKey, text: stringify, compare, plainClick, recordURL, tableURL,
+    stash, consume, displayTitle, load} = window.KernelLedger;
+  const requestURL = new URL(window.location.href);
+  const requestedRecord = requestURL.searchParams.get("record");
+  if (requestedRecord !== null) {
+    window.location.replace(recordURL(requestedRecord).href);
+    return;
+  }
+
   const byId = (id) => document.getElementById(id);
   const scope = byId("ledger-scope");
   const controls = byId("ledger-controls");
@@ -26,31 +35,13 @@
   const indicator = byId("ledger-page");
   const exportFiltered = byId("ledger-export-filtered");
   const quick = byId("ledger-quick-categories");
-  const detail = byId("ledger-detail");
   const mobileSort = byId("ledger-mobile-sort");
-  const detailTitle = byId("ledger-detail-title");
   const listStateKey = "openkernelledger";
-  const requestURL = new URL(window.location.href);
-  const requestedRecord = requestURL.searchParams.get("record");
   const headers = Array.from(table.querySelectorAll("button[data-order]"));
-  const collator = new Intl.Collator("en", {numeric: true, sensitivity: "base"});
-  const stringify = (v) => (typeof v === "string" ? v.trim() : "");
   const normalize = (v) => v.toLocaleLowerCase("en").normalize("NFKD").replace(/\p{M}/gu, "");
-  const compare = (a, b) => collator.compare(a, b);
   const state = {page: 1, key: "id", direction: 1};
   let rows = [];
   let matching = [];
-
-  function approvedEvidence(value) {
-    try {
-      const url = new URL(value);
-      const allowedPath = /^\/Danonika\/openkernelchallenge\/(?:blob|tree)\/[a-f0-9]{40}(?:\/|$)/i;
-      if (url.origin === "https://github.com" && !url.username && !url.password && allowedPath.test(url.pathname)) {
-        return url.href;
-      }
-    } catch {}
-    return "";
-  }
 
   function optionSet(select, values, placeholder) {
     const value = select.value;
@@ -66,21 +57,6 @@
     return el;
   }
 
-  function recordURL(row) {
-    const url = new URL("./", window.location.href);
-    url.searchParams.set("record", row.category + ":" + row.id);
-    url.hash = "public-ledger";
-    return url.href;
-  }
-
-  function displayTitle(row) {
-    let title = row.title.replace(/\[([^\]\r\n]+)\]\([^\r\n)]*\)/g, "$1").replace(/\*\*([^*\r\n]+)\*\*/g, "$1");
-    if (row.category === "Notebook archive" && title.includes("_")) {
-      title = title.replace(/\.ipynb$/i, "").replace(/_+/g, " ");
-    }
-    return title;
-  }
-
   function rowNode(row) {
     const tr = node("tr", "", "ledger-record");
     tr.setAttribute("role", "row");
@@ -89,8 +65,8 @@
     recordId.setAttribute("role", "rowheader");
     const title = node("td", "", "ledger-title-cell");
     const open = node("a", displayTitle(row), "ledger-record-link");
-    open.href = recordURL(row);
-    open.dataset.record = row.category + ":" + row.id;
+    open.href = recordURL(recordKey(row)).href;
+    open.dataset.record = recordKey(row);
     const hint = node("span", "Open record", "ledger-open-hint");
     hint.setAttribute("aria-hidden", "true");
     open.append(hint);
@@ -116,26 +92,33 @@
     }
     for (const cell of [title, status, evidence, category]) cell.setAttribute("role", "cell");
     open.addEventListener("click", (event) => {
-      if (!event.ctrlKey && !event.metaKey && !event.shiftKey && !event.altKey && event.button === 0) saveListState(open.dataset.record);
+      if (plainClick(event)) prepareRecord(open.dataset.record);
     });
     tr.addEventListener("click", (event) => {
       if (event.target.closest("a, button, input, select, label") ||
-          event.ctrlKey || event.metaKey || event.shiftKey || event.altKey ||
-          event.button !== 0 || window.getSelection()?.toString()) return;
-      saveListState(open.dataset.record);
+          !plainClick(event) || window.getSelection()?.toString()) return;
+      prepareRecord(open.dataset.record);
       window.location.assign(open.href);
     });
     tr.append(recordId, category, title, status, evidence);
     return tr;
   }
 
+  function listState(focusRecord = "") {
+    return {
+      search: fields.search.value, category: fields.category.value, status: fields.status.value,
+      size: fields.size.value, page: state.page, key: state.key, direction: state.direction,
+      advancedOpen: advanced.open, focusRecord
+    };
+  }
+
   function saveListState(focusRecord = "") {
-    try {
-      history.replaceState({...history.state, [listStateKey]: {
-        search: fields.search.value, category: fields.category.value, status: fields.status.value,
-        size: fields.size.value, page: state.page, key: state.key, direction: state.direction, focusRecord,
-      }}, "");
-    } catch {}
+    try { history.replaceState({...history.state, [listStateKey]: listState(focusRecord)}, ""); } catch {}
+  }
+
+  function prepareRecord(key) {
+    saveListState(key);
+    stash(null, key, listState(key));
   }
 
   function restoreListState() {
@@ -151,69 +134,6 @@
     if (saved.direction === -1) state.direction = -1;
     if (Number.isSafeInteger(saved.page) && saved.page > 0) state.page = saved.page;
     return stringify(saved.focusRecord);
-  }
-
-  function showDetail(row) {
-    const back = byId("ledger-return");
-    const listURL = new URL("./#public-ledger", window.location.href);
-    back.href = listURL.href;
-    try {
-      const ref = new URL(document.referrer);
-      if (ref.origin === listURL.origin && ref.pathname === listURL.pathname &&
-          !ref.searchParams.has("record") && history.length > 1) {
-        back.textContent = "Back to research table";
-        back.addEventListener("click", (event) => {
-          if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey || event.button !== 0) return;
-          event.preventDefault();
-          history.back();
-        });
-      }
-    } catch {}
-    byId("ledger-detail-type").textContent = row ? "Research record" : "Record unavailable";
-    detailTitle.textContent = row ? displayTitle(row) : "This record was not found";
-    if (row) {
-      byId("ledger-detail-id").textContent = row.id;
-      byId("ledger-detail-category").textContent = row.category;
-      byId("ledger-detail-status").textContent = row.status;
-      byId("ledger-detail-notes").textContent = row.notes || "No public notes for this record.";
-      const link = byId("ledger-detail-source");
-      if (row.url) { link.href = row.url; link.hidden = false; }
-      document.title = row.title + " · OpenKernelChallenge";
-      const share = byId("ledger-share");
-      byId("ledger-copy").addEventListener("click", async () => {
-        const status = byId("ledger-copy-status");
-        const href = recordURL(row);
-        try {
-          await navigator.clipboard.writeText(href);
-          status.textContent = "Link copied.";
-        } catch {
-          byId("ledger-share-fallback").hidden = false;
-          const input = byId("ledger-share-url");
-          input.value = href;
-          input.focus();
-          input.select();
-          status.textContent = "Select and copy the record URL.";
-        }
-      });
-      share.hidden = false;
-      const siblings = rows.filter((item) => item.category === row.category).sort((a,b) => compare(a.id,b.id));
-      const pos = siblings.indexOf(row);
-      const neighbors = byId("ledger-neighbors");
-      for (const [label,item] of [["Previous in category",siblings[pos-1]],["Next in category",siblings[pos+1]]]) {
-        if (!item) continue;
-        const nextRecord = node("a", label + ": " + item.id);
-        nextRecord.href = recordURL(item);
-        neighbors.append(nextRecord);
-      }
-      neighbors.hidden = siblings.length < 2;
-    } else {
-      detail.querySelector("dl").hidden = true;
-      byId("ledger-detail-notes").textContent = "Return to the table to find a current public record.";
-    }
-    readout.textContent = "";
-    readout.hidden = true;
-    detail.hidden = false;
-    detailTitle.focus({preventScroll: true});
   }
 
   function buildQuickCategories() {
@@ -317,41 +237,20 @@
     byId("ledger-retry-wrap").hidden = true;
     readout.textContent = "Loading the public research ledger…";
     try {
-      const res = await fetch("ledger-data.json", {credentials: "same-origin"});
-      if (!res.ok) throw new Error("Unavailable");
-      const data = await res.json();
-      const input = Array.isArray(data) ? data : data.rows;
-      if (!Array.isArray(input) || !input.length) throw new Error("No records");
-      rows = input.map((entry, sourceIndex) => {
-        if (!entry || typeof entry !== "object") return null;
-        const row = {
-          id: stringify(entry.id),
-          category: stringify(entry.category),
-          title: stringify(entry.title),
-          status: stringify(entry.status),
-          notes: stringify(entry.notes),
-          url: approvedEvidence(stringify(entry.url)),
-          sourceIndex
-        };
-        if (!row.id || !row.category || !row.title || !row.status) return null;
-        row.search = normalize([row.id, row.category, row.title, displayTitle(row), row.status, row.notes].join(" "));
-        return row;
-      });
-      if (!rows.length || rows.some((row) => !row)) throw new Error("Incomplete records");
-      scope.textContent = stringify(data.scope).replace("aggregate coverage above", "project activity totals below");
-      if (requestedRecord !== null) {
-        const record = requestedRecord.length <= 240 ?
-          rows.find((row) => row.category + ":" + row.id === requestedRecord) : null;
-        showDetail(record);
-        return;
-      }
+      const data = await load();
+      rows = data.rows.map((row) => ({
+        ...row, search: normalize([row.id, row.category, row.title, displayTitle(row), row.status, row.notes].join(" "))
+      }));
+      scope.textContent = data.scope.replace("aggregate coverage above", "project activity totals below");
       optionSet(fields.category, rows.map((r) => r.category), "All categories");
       const restoreFocus = restoreListState();
       buildQuickCategories();
       const narrow = typeof window.matchMedia === "function" && window.matchMedia("(max-width: 540px)");
       if (narrow) {
         const syncDisclosure = () => { advanced.open = !narrow.matches; };
-        syncDisclosure();
+        const savedOpen = history.state?.[listStateKey]?.advancedOpen;
+        if (typeof savedOpen === "boolean") advanced.open = savedOpen;
+        else syncDisclosure();
         narrow.addEventListener?.("change", syncDisclosure);
       }
       for (const el of [controls, guide, table, pages]) el.hidden = false;
@@ -431,6 +330,12 @@
   window.addEventListener("resize", updateRail);
   window.addEventListener("hashchange", updateRail);
   updateRail();
+  if (requestURL.searchParams.get("return") === "1") {
+    const restored = consume(null);
+    try {
+      history.replaceState({...history.state, ...(restored ? {[listStateKey]: restored} : {})}, "", tableURL().href);
+    } catch {}
+  }
   byId("ledger-retry").addEventListener("click", init);
   init();
 })();
