@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; connect-src 'self'; base-uri 'none'; form-action 'none'">
+  <meta name="description" content="Inputs, training notes, and aggregate development statistics for a CTG Outcome Atlas result.">
+  <title>CTG result · AgentSlop Research</title>
+  <link rel="stylesheet" href="../atlas-results.css">
+  <script src="result.js" defer></script>
+</head>
+<body class="atlas-result-page">
+  <header class="result-header">
+    <div class="result-wrap">
+      <a class="result-brand" href="../../../">
+        <svg viewBox="0 0 26 24" width="23" height="21" aria-hidden="true"><path d="M0 22 9 2h5L5 22ZM12 22l7-15h5l-7 15Z" fill="currentColor"/></svg>
+        AgentSlop Research
+      </a>
+      <a href="../#experiments">Back to CTG results</a>
+    </div>
+  </header>
+  <main class="result-wrap result-main">
+    <p id="result-status" class="result-status" role="status">Loading the result…</p>
+    <noscript><p>Use JavaScript to open an individual result. You can also <a href="../atlas-aggregate-results-20261119.json">download the aggregate results</a>.</p></noscript>
+    <article id="result-page" hidden>
+      <p class="result-kicker" id="result-identity"></p>
+      <h1 id="result-title"></h1>
+      <p class="result-subtitle" id="result-subtitle"></p>
+
+      <section class="result-panel" aria-labelledby="result-method-title">
+        <h2 id="result-method-title">Inputs, model, and training</h2>
+        <dl class="result-context">
+          <div><dt>Input</dt><dd id="result-input"></dd></div>
+          <div><dt>Model</dt><dd id="result-model"></dd></div>
+          <div><dt>How it was trained</dt><dd id="result-training"></dd></div>
+          <div><dt>Cutoff</dt><dd id="result-cutoff"></dd></div>
+        </dl>
+        <p class="result-note" id="result-method-note" hidden></p>
+      </section>
+      <section class="result-panel" aria-labelledby="result-stats-title">
+        <h2 id="result-stats-title">Reported statistics</h2>
+        <dl class="result-primary" id="result-primary"></dl>
+        <dl class="result-confusion" id="result-confusion"></dl>
+        <dl class="result-metrics" id="result-metrics"></dl>
+        <p class="result-note" id="result-scope"></p>
+      </section>
+      <section class="result-panel" id="result-related-panel" aria-labelledby="result-related-title" hidden>
+        <h2 id="result-related-title">Other results under this registry ID</h2>
+        <ul class="result-related" id="result-related"></ul>
+        <p><a id="result-registry-link" href="../#experiments">Open this group in the workbench</a></p>
+      </section>
+      <footer class="result-footer">
+        <p>Aggregate retrospective development results from the CTG Outcome Atlas.</p>
+        <ul class="result-source">
+          <li><a href="../#experiments">Browse the archive</a></li>
+          <li><a href="../atlas-aggregate-results-20261119.json">Aggregate snapshot</a></li>
+        </ul>
+      </footer>
+    </article>
+  </main>
+</body>
+</html>

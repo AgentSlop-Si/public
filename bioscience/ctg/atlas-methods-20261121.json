@@ -1,0 +1,425 @@
+{
+  "rows": {
+    "469": {
+      "model": "XGBoost · combined RAW46 features",
+      "input": "One complete 1,800-second recording window. The feature extraction used the 50–210 bpm heart-rate range and gap-safe uterine-activity features.",
+      "training": "A new boosted-tree fit used one 46-feature vector per recording.",
+      "context": "These are descriptive results for a reused development cohort."
+    },
+    "470": {
+      "model": "XGBoost · combined RAW46 features",
+      "input": "One complete 1,800-second recording window. The feature extraction used the 50–210 bpm heart-rate range and gap-safe uterine-activity features.",
+      "training": "A new boosted-tree fit used one 46-feature vector per recording.",
+      "context": "These are descriptive results for a reused development cohort.",
+      "cutoff": "TRAIN20. A separate threshold was selected using inner out-of-fold negative scores within each outer training fold."
+    },
+    "795": {
+      "model": "XGBoost · combined RAW46 features",
+      "input": "Sixteen overlapping 900-second windows with fixed starts one minute apart. Together the views span the recorded half hour.",
+      "training": "A separate boosted-tree fit used the fixed short windows. Evaluation margins were pooled at the recording level by log-mean-exp.",
+      "context": "These are descriptive results for a reused development cohort."
+    },
+    "796": {
+      "model": "XGBoost · combined RAW46 features",
+      "input": "Sixteen overlapping 900-second windows with fixed starts one minute apart. Together the views span the recorded half hour.",
+      "training": "A separate boosted-tree fit used the fixed short windows. Evaluation margins were pooled at the recording level by log-mean-exp.",
+      "context": "These are descriptive results for a reused development cohort.",
+      "cutoff": "TRAIN20. Training-only inner out-of-fold negative scores were thresholded after recording-level pooling."
+    },
+    "465": {
+      "model": "XGBoost · FHR range 50–210",
+      "input": "One complete 1,800-second recording window. The input used a 46-feature summary with the original uterine-signal policy.",
+      "training": "A new boosted-tree fit used one 46-feature vector per recording."
+    },
+    "466": {
+      "model": "XGBoost · FHR range 50–210",
+      "input": "One complete 1,800-second recording window. The input used a 46-feature summary with the original uterine-signal policy.",
+      "training": "A new boosted-tree fit used one 46-feature vector per recording.",
+      "cutoff": "TRAIN20. A separate threshold was selected using inner out-of-fold negative scores within each outer training fold."
+    },
+    "789": {
+      "model": "XGBoost · FHR range 50–210",
+      "input": "Sixteen overlapping 900-second windows with fixed starts one minute apart. Together the views span the recorded half hour.",
+      "training": "A separate fit used the fixed short windows. Evaluation margins were pooled by log-mean-exp."
+    },
+    "790": {
+      "model": "XGBoost · FHR range 50–210",
+      "input": "Sixteen overlapping 900-second windows with fixed starts one minute apart. Together the views span the recorded half hour.",
+      "training": "A separate fit used the fixed short windows. Evaluation margins were pooled by log-mean-exp.",
+      "cutoff": "TRAIN20. Inner out-of-fold training negatives were used after recording-level pooling."
+    },
+    "1032": {
+      "model": "SmallCTGCNN · predictive companion",
+      "input": "One complete 1,800-second recording window.",
+      "training": "A new predictive waveform CNN was fitted using one physical 30-minute window per recording.",
+      "cutoff": "TRAIN20. A separate threshold was selected using inner out-of-fold negative scores within each outer training fold.",
+      "context": "This result evaluates the predictive companion. The export parity check is result #770."
+    },
+    "1033": {
+      "model": "SmallCTGCNN · predictive companion",
+      "input": "Sixteen overlapping 900-second windows with fixed starts one minute apart. Together the views span the recorded half hour.",
+      "training": "The separate CNN fit weighted each source recording equally during training. Evaluation averaged the sixteen raw logits before applying the sigmoid."
+    },
+    "1034": {
+      "model": "SmallCTGCNN · predictive companion",
+      "input": "Sixteen overlapping 900-second windows with fixed starts one minute apart. Together the views span the recorded half hour.",
+      "training": "The separate CNN fit weighted each source recording equally during training. Evaluation averaged the sixteen raw logits before applying the sigmoid.",
+      "cutoff": "TRAIN20. A separate threshold was selected using inner out-of-fold negative scores within each outer training fold."
+    },
+    "770": {
+      "model": "Small 1D CNN · ONNX export parity",
+      "input": "One complete 1,800-second recording window.",
+      "training": "The ONNX artifact used the saved reference model weights for a parity check.",
+      "context": "This row records an export check on development waveforms."
+    },
+    "2": {
+      "model": "Small 1D CNN · raw development scores",
+      "input": "One complete 1,800-second recording window.",
+      "training": "The two cutoffs use the same recorded five-fold out-of-fold CNN scores. The aggregate reference does not specify the fitting schedule.",
+      "cutoff": "Fixed probability cutoff of 0.5."
+    },
+    "3": {
+      "model": "Small 1D CNN · raw development scores",
+      "input": "One complete 1,800-second recording window.",
+      "training": "The two cutoffs use the same recorded five-fold out-of-fold CNN scores. The aggregate reference does not specify the fitting schedule.",
+      "cutoff": "TRAIN20. This cutoff was selected with training-side scores. The FPR below is the observed development FPR."
+    },
+    "200": {
+      "model": "FHR-only SmallCNN · raw readout",
+      "input": "One complete 1,800-second recording window. The uterine channels were zeroed.",
+      "training": "A randomly initialized small CNN was fitted on the fetal heart-rate channel."
+    },
+    "201": {
+      "model": "FHR-only SmallCNN · raw readout",
+      "input": "One complete 1,800-second recording window. The uterine channels were zeroed.",
+      "training": "A randomly initialized small CNN was fitted on the fetal heart-rate channel.",
+      "cutoff": "TRAIN20. A separate threshold was selected using inner out-of-fold negative scores within each outer training fold."
+    },
+    "618": {
+      "model": "FHR-only SmallCNN · raw readout",
+      "input": "Sixteen overlapping 900-second windows with fixed starts one minute apart. Together the views span the recorded half hour. The uterine channels were zeroed.",
+      "training": "Training began from random weights and used 16 seeded random short crops per recording per epoch for 35 epochs. Held scores from the fixed views were pooled by log-mean-exp."
+    },
+    "619": {
+      "model": "FHR-only SmallCNN · raw readout",
+      "input": "Sixteen overlapping 900-second windows with fixed starts one minute apart. Together the views span the recorded half hour. The uterine channels were zeroed.",
+      "training": "Training began from random weights and used 16 seeded random short crops per recording per epoch for 35 epochs. Held scores from the fixed views were pooled by log-mean-exp.",
+      "cutoff": "TRAIN20. Cutoffs were selected using pooled recording scores from training-only inner out-of-fold negatives."
+    },
+    "622": {
+      "model": "FHR-only SmallCNN · analytic correction",
+      "input": "Sixteen overlapping 900-second windows with fixed starts one minute apart. Together the views span the recorded half hour. The readout uses the fetal heart-rate results from the raw #57 pipeline.",
+      "training": "The analytic correction reused the 20 CNN fits and existing inference scores from #57.",
+      "context": "Both entries share the underlying model weights."
+    },
+    "623": {
+      "model": "FHR-only SmallCNN · analytic correction",
+      "input": "Sixteen overlapping 900-second windows with fixed starts one minute apart. Together the views span the recorded half hour. The readout uses the fetal heart-rate results from the raw #57 pipeline.",
+      "training": "The analytic correction reused the 20 CNN fits and existing inference scores from #57.",
+      "context": "Both entries share the underlying model weights.",
+      "cutoff": "TRAIN20 recorded for the corrected readout. The aggregate counts match #57 at its training-selected cutoff."
+    },
+    "1134": {
+      "model": "Strands Decider 2B · frozen",
+      "input": "One complete 1,800-second recording window. The recorded model uses a numeric CTG feature representation.",
+      "training": "The released Decider weights were kept frozen. The model used its shipped temperature.",
+      "cutoff": "Recorded zero-margin reference cutoff."
+    },
+    "1135": {
+      "model": "Strands Decider 2B · frozen",
+      "input": "One complete 1,800-second recording window. The recorded model uses a numeric CTG feature representation.",
+      "training": "The released Decider weights were kept frozen. The model used its shipped temperature.",
+      "cutoff": "Nested TRAIN20. The cutoff was selected from training-fold negative scores."
+    },
+    "1136": {
+      "model": "Strands Decider 2B · frozen",
+      "input": "Sixteen overlapping 900-second windows with fixed starts one minute apart. Together the views span the recorded half hour. The recorded model uses a numeric CTG feature representation.",
+      "training": "The released Decider weights were kept frozen. The model used its shipped temperature.",
+      "cutoff": "Recorded zero-margin reference cutoff."
+    },
+    "1137": {
+      "model": "Strands Decider 2B · frozen",
+      "input": "Sixteen overlapping 900-second windows with fixed starts one minute apart. Together the views span the recorded half hour. The recorded model uses a numeric CTG feature representation.",
+      "training": "The released Decider weights were kept frozen. The model used its shipped temperature.",
+      "cutoff": "Nested TRAIN20. The cutoff was selected from training-fold negative scores."
+    },
+    "1253": {
+      "model": "Kev 0.8B · source-native E1 replication",
+      "input": "One complete 1,800-second recording window. The input uses the source CTG feature summary.",
+      "training": "Ten rank-16 LoRA fits used the released Kev initialization, with one epoch of AdamW adapter training. The Qwen3.5 0.8B base and pointer head stayed frozen.",
+      "cutoff": "Fixed probability cutoff of 0.5.",
+      "context": "This is the subsequent five-fold replication under registry #42."
+    },
+    "1254": {
+      "model": "Kev 0.8B · source-native E1 replication",
+      "input": "One complete 1,800-second recording window. The input uses the source CTG feature summary.",
+      "training": "Ten rank-16 LoRA fits used the released Kev initialization, with one epoch of AdamW adapter training. The Qwen3.5 0.8B base and pointer head stayed frozen.",
+      "cutoff": "Own-training TRAIN20. The cutoff uses each final model’s outer-training negatives.",
+      "context": "This is the subsequent five-fold replication under registry #42."
+    },
+    "1255": {
+      "model": "Kev 0.8B · source-native E1 replication",
+      "input": "Sixteen overlapping 900-second windows with fixed starts one minute apart. Together the views span the recorded half hour. The input uses the source CTG feature summary.",
+      "training": "Ten rank-16 LoRA fits used the released Kev initialization, with one epoch of AdamW adapter training. The Qwen3.5 0.8B base and pointer head stayed frozen.",
+      "cutoff": "Fixed probability cutoff of 0.5.",
+      "context": "This is the subsequent five-fold replication under registry #42."
+    },
+    "1256": {
+      "model": "Kev 0.8B · source-native E1 replication",
+      "input": "Sixteen overlapping 900-second windows with fixed starts one minute apart. Together the views span the recorded half hour. The input uses the source CTG feature summary.",
+      "training": "Ten rank-16 LoRA fits used the released Kev initialization, with one epoch of AdamW adapter training. The Qwen3.5 0.8B base and pointer head stayed frozen.",
+      "cutoff": "Own-training TRAIN20. The cutoff uses each final model’s outer-training negatives.",
+      "context": "This is the subsequent five-fold replication under registry #42."
+    },
+    "1249": {
+      "model": "Qwen3.5-2B LoRA · partial DEV177",
+      "input": "One complete 1,800-second recording window.",
+      "training": "Four completed LoRA adapters supply this paired evaluation. Each used the three-epoch source recipe. The short-training arm presented all 16 views each epoch.",
+      "cutoff": "Fixed probability cutoff of 0.5.",
+      "context": "This result uses the two completed folds, with 177 recordings in each compared condition."
+    },
+    "1250": {
+      "model": "Qwen3.5-2B LoRA · partial DEV177",
+      "input": "One complete 1,800-second recording window.",
+      "training": "Four completed LoRA adapters supply this paired evaluation. Each used the three-epoch source recipe. The short-training arm presented all 16 views each epoch.",
+      "cutoff": "Own-training TRAIN20 selected on the matched fold training negatives.",
+      "context": "This result uses the two completed folds, with 177 recordings in each compared condition."
+    },
+    "1251": {
+      "model": "Qwen3.5-2B LoRA · partial DEV177",
+      "input": "Sixteen overlapping 900-second windows with fixed starts one minute apart. Together the views span the recorded half hour.",
+      "training": "Four completed LoRA adapters supply this paired evaluation. Each used the three-epoch source recipe. The short-training arm presented all 16 views each epoch.",
+      "cutoff": "Fixed probability cutoff of 0.5.",
+      "context": "This result uses the two completed folds, with 177 recordings in each compared condition."
+    },
+    "1252": {
+      "model": "Qwen3.5-2B LoRA · partial DEV177",
+      "input": "Sixteen overlapping 900-second windows with fixed starts one minute apart. Together the views span the recorded half hour.",
+      "training": "Four completed LoRA adapters supply this paired evaluation. Each used the three-epoch source recipe. The short-training arm presented all 16 views each epoch.",
+      "cutoff": "Own-training TRAIN20 selected on the matched fold training negatives.",
+      "context": "This result uses the two completed folds, with 177 recordings in each compared condition."
+    },
+    "1213": {
+      "model": "SmallCTGCNN · regenerated five-fold waveform fit",
+      "input": "One complete 1,800-second recording window.",
+      "training": "The 14,801-parameter SmallCTGCNN used 35 epochs of AdamW and class-weighted binary cross-entropy."
+    },
+    "1214": {
+      "model": "SmallCTGCNN · regenerated five-fold waveform fit",
+      "input": "One complete 1,800-second recording window.",
+      "training": "The 14,801-parameter SmallCTGCNN used 35 epochs of AdamW and class-weighted binary cross-entropy.",
+      "cutoff": "TRAIN20 fitted on inner out-of-fold CNN negatives."
+    },
+    "1215": {
+      "model": "SmallCTGCNN · regenerated five-fold waveform fit",
+      "input": "Sixteen overlapping 900-second windows with fixed starts one minute apart. Together the views span the recorded half hour.",
+      "training": "The 14,801-parameter SmallCTGCNN used 35 epochs of AdamW and class-weighted binary cross-entropy. Each recording contributed one short view per training epoch in a fixed cycling schedule."
+    },
+    "1216": {
+      "model": "SmallCTGCNN · regenerated five-fold waveform fit",
+      "input": "Sixteen overlapping 900-second windows with fixed starts one minute apart. Together the views span the recorded half hour.",
+      "training": "The 14,801-parameter SmallCTGCNN used 35 epochs of AdamW and class-weighted binary cross-entropy. Each recording contributed one short view per training epoch in a fixed cycling schedule.",
+      "cutoff": "TRAIN20 fitted on inner out-of-fold CNN negatives."
+    },
+    "1217": {
+      "model": "SmallCTGCNN · regenerated five-fold calibrated readout",
+      "input": "One complete 1,800-second recording window.",
+      "training": "The 14,801-parameter SmallCTGCNN used 35 epochs of AdamW and class-weighted binary cross-entropy. An L2 logistic calibrator was fitted on training-only CNN out-of-fold scores."
+    },
+    "1218": {
+      "model": "SmallCTGCNN · regenerated five-fold calibrated readout",
+      "input": "One complete 1,800-second recording window.",
+      "training": "The 14,801-parameter SmallCTGCNN used 35 epochs of AdamW and class-weighted binary cross-entropy. An L2 logistic calibrator was fitted on training-only CNN out-of-fold scores.",
+      "cutoff": "TRAIN20 fitted on final-calibrator scores on its training negatives."
+    },
+    "1219": {
+      "model": "SmallCTGCNN · regenerated five-fold calibrated readout",
+      "input": "Sixteen overlapping 900-second windows with fixed starts one minute apart. Together the views span the recorded half hour.",
+      "training": "The 14,801-parameter SmallCTGCNN used 35 epochs of AdamW and class-weighted binary cross-entropy. Each recording contributed one short view per training epoch in a fixed cycling schedule. An L2 logistic calibrator was fitted on training-only CNN out-of-fold scores."
+    },
+    "1220": {
+      "model": "SmallCTGCNN · regenerated five-fold calibrated readout",
+      "input": "Sixteen overlapping 900-second windows with fixed starts one minute apart. Together the views span the recorded half hour.",
+      "training": "The 14,801-parameter SmallCTGCNN used 35 epochs of AdamW and class-weighted binary cross-entropy. Each recording contributed one short view per training epoch in a fixed cycling schedule. An L2 logistic calibrator was fitted on training-only CNN out-of-fold scores.",
+      "cutoff": "TRAIN20 fitted on final-calibrator scores on its training negatives."
+    },
+    "1237": {
+      "model": "Frozen Kev 0.8B · source readout",
+      "input": "One complete 1,800-second recording window.",
+      "training": "The Kev provider stayed frozen. The source method applies a strict score comparison to the training-derived boundary."
+    },
+    "1238": {
+      "model": "Frozen Kev 0.8B · source readout",
+      "input": "One complete 1,800-second recording window.",
+      "training": "The Kev provider stayed frozen. The source method applies a strict score comparison to the training-derived boundary.",
+      "cutoff": "TRAIN20. Scores tied at the training-negative boundary stay unflagged."
+    },
+    "1239": {
+      "model": "Frozen Kev 0.8B · source readout",
+      "input": "Sixteen overlapping 900-second windows with fixed starts one minute apart. Together the views span the recorded half hour.",
+      "training": "The Kev provider stayed frozen. The source method applies a strict score comparison to the training-derived boundary."
+    },
+    "1240": {
+      "model": "Frozen Kev 0.8B · source readout",
+      "input": "Sixteen overlapping 900-second windows with fixed starts one minute apart. Together the views span the recorded half hour.",
+      "training": "The Kev provider stayed frozen. The source method applies a strict score comparison to the training-derived boundary.",
+      "cutoff": "TRAIN20. Scores tied at the training-negative boundary stay unflagged."
+    },
+    "1241": {
+      "model": "Frozen Kev 0.8B + logistic readout",
+      "input": "One complete 1,800-second recording window.",
+      "training": "A standardized, unweighted L2 logistic head was fitted to frozen Kev coordinates in each outer training fold."
+    },
+    "1242": {
+      "model": "Frozen Kev 0.8B + logistic readout",
+      "input": "One complete 1,800-second recording window.",
+      "training": "A standardized, unweighted L2 logistic head was fitted to frozen Kev coordinates in each outer training fold.",
+      "cutoff": "TRAIN20 selected on final-head training negatives."
+    },
+    "1243": {
+      "model": "Frozen Kev 0.8B + logistic readout",
+      "input": "Sixteen overlapping 900-second windows with fixed starts one minute apart. Together the views span the recorded half hour.",
+      "training": "A standardized, unweighted L2 logistic head was fitted to frozen Kev coordinates in each outer training fold."
+    },
+    "1244": {
+      "model": "Frozen Kev 0.8B + logistic readout",
+      "input": "Sixteen overlapping 900-second windows with fixed starts one minute apart. Together the views span the recorded half hour.",
+      "training": "A standardized, unweighted L2 logistic head was fitted to frozen Kev coordinates in each outer training fold.",
+      "cutoff": "TRAIN20 selected on final-head training negatives."
+    },
+    "1245": {
+      "model": "Shared SmallCTGCNN + logistic readout",
+      "input": "One complete 1,800-second recording window.",
+      "training": "A standardized, unweighted L2 logistic head was fitted to the shared regenerated #51 CNN coordinates."
+    },
+    "1246": {
+      "model": "Shared SmallCTGCNN + logistic readout",
+      "input": "One complete 1,800-second recording window.",
+      "training": "A standardized, unweighted L2 logistic head was fitted to the shared regenerated #51 CNN coordinates.",
+      "cutoff": "TRAIN20 selected on final-head training negatives."
+    },
+    "1247": {
+      "model": "Shared SmallCTGCNN + logistic readout",
+      "input": "Sixteen overlapping 900-second windows with fixed starts one minute apart. Together the views span the recorded half hour.",
+      "training": "A standardized, unweighted L2 logistic head was fitted to the shared regenerated #51 CNN coordinates."
+    },
+    "1248": {
+      "model": "Shared SmallCTGCNN + logistic readout",
+      "input": "Sixteen overlapping 900-second windows with fixed starts one minute apart. Together the views span the recorded half hour.",
+      "training": "A standardized, unweighted L2 logistic head was fitted to the shared regenerated #51 CNN coordinates.",
+      "cutoff": "TRAIN20 selected on final-head training negatives."
+    },
+    "1221": {
+      "model": "SmallCTGCNN · input-standardized replication",
+      "input": "One complete 1,800-second recording window.",
+      "training": "An independently initialized SmallCTGCNN used 35 epochs of AdamW and unweighted binary cross-entropy. Each recording contributed one training view per epoch.",
+      "cutoff": "Reference rule using the source training-negative 10% calibration.",
+      "context": "These are the input-standardized results for this registry ID. Historical native-duration results are separate."
+    },
+    "1222": {
+      "model": "SmallCTGCNN · input-standardized replication",
+      "input": "One complete 1,800-second recording window.",
+      "training": "An independently initialized SmallCTGCNN used 35 epochs of AdamW and unweighted binary cross-entropy. Each recording contributed one training view per epoch.",
+      "cutoff": "TRAIN20 with training-side negative calibration.",
+      "context": "These are the input-standardized results for this registry ID. Historical native-duration results are separate."
+    },
+    "1223": {
+      "model": "SmallCTGCNN · input-standardized replication",
+      "input": "Sixteen overlapping 900-second windows with fixed starts one minute apart. Together the views span the recorded half hour.",
+      "training": "An independently initialized SmallCTGCNN used 35 epochs of AdamW and unweighted binary cross-entropy. Each recording contributed one training view per epoch. The short views followed a deterministic cycle.",
+      "cutoff": "Reference rule using the source training-negative 10% calibration.",
+      "context": "These are the input-standardized results for this registry ID. Historical native-duration results are separate."
+    },
+    "1224": {
+      "model": "SmallCTGCNN · input-standardized replication",
+      "input": "Sixteen overlapping 900-second windows with fixed starts one minute apart. Together the views span the recorded half hour.",
+      "training": "An independently initialized SmallCTGCNN used 35 epochs of AdamW and unweighted binary cross-entropy. Each recording contributed one training view per epoch. The short views followed a deterministic cycle.",
+      "cutoff": "TRAIN20 with training-side negative calibration.",
+      "context": "These are the input-standardized results for this registry ID. Historical native-duration results are separate."
+    },
+    "1225": {
+      "model": "SmallCTGCNN · input-standardized replication",
+      "input": "One complete 1,800-second recording window.",
+      "training": "An independently initialized SmallCTGCNN used 35 epochs of AdamW and unweighted binary cross-entropy. Each recording contributed one training view per epoch.",
+      "cutoff": "Reference rule using the source training-negative 10% calibration.",
+      "context": "These are the input-standardized results for this registry ID. Historical native-duration results are separate."
+    },
+    "1226": {
+      "model": "SmallCTGCNN · input-standardized replication",
+      "input": "One complete 1,800-second recording window.",
+      "training": "An independently initialized SmallCTGCNN used 35 epochs of AdamW and unweighted binary cross-entropy. Each recording contributed one training view per epoch.",
+      "cutoff": "TRAIN20 with training-side negative calibration.",
+      "context": "These are the input-standardized results for this registry ID. Historical native-duration results are separate."
+    },
+    "1227": {
+      "model": "SmallCTGCNN · input-standardized replication",
+      "input": "Sixteen overlapping 900-second windows with fixed starts one minute apart. Together the views span the recorded half hour.",
+      "training": "An independently initialized SmallCTGCNN used 35 epochs of AdamW and unweighted binary cross-entropy. Each recording contributed one training view per epoch. The short views followed a deterministic cycle.",
+      "cutoff": "Reference rule using the source training-negative 10% calibration.",
+      "context": "These are the input-standardized results for this registry ID. Historical native-duration results are separate."
+    },
+    "1228": {
+      "model": "SmallCTGCNN · input-standardized replication",
+      "input": "Sixteen overlapping 900-second windows with fixed starts one minute apart. Together the views span the recorded half hour.",
+      "training": "An independently initialized SmallCTGCNN used 35 epochs of AdamW and unweighted binary cross-entropy. Each recording contributed one training view per epoch. The short views followed a deterministic cycle.",
+      "cutoff": "TRAIN20 with training-side negative calibration.",
+      "context": "These are the input-standardized results for this registry ID. Historical native-duration results are separate."
+    },
+    "1229": {
+      "model": "SmallCTGCNN · input-standardized replication",
+      "input": "One complete 1,800-second recording window.",
+      "training": "An independently initialized SmallCTGCNN used 35 epochs of AdamW and unweighted binary cross-entropy. Each recording contributed one training view per epoch.",
+      "cutoff": "Reference rule using the source training-negative 10% calibration.",
+      "context": "These are the input-standardized results for this registry ID. Historical native-duration results are separate."
+    },
+    "1230": {
+      "model": "SmallCTGCNN · input-standardized replication",
+      "input": "One complete 1,800-second recording window.",
+      "training": "An independently initialized SmallCTGCNN used 35 epochs of AdamW and unweighted binary cross-entropy. Each recording contributed one training view per epoch.",
+      "cutoff": "TRAIN20 with training-side negative calibration.",
+      "context": "These are the input-standardized results for this registry ID. Historical native-duration results are separate."
+    },
+    "1231": {
+      "model": "SmallCTGCNN · input-standardized replication",
+      "input": "Sixteen overlapping 900-second windows with fixed starts one minute apart. Together the views span the recorded half hour.",
+      "training": "An independently initialized SmallCTGCNN used 35 epochs of AdamW and unweighted binary cross-entropy. Each recording contributed one training view per epoch. The short views followed a deterministic cycle.",
+      "cutoff": "Reference rule using the source training-negative 10% calibration.",
+      "context": "These are the input-standardized results for this registry ID. Historical native-duration results are separate."
+    },
+    "1232": {
+      "model": "SmallCTGCNN · input-standardized replication",
+      "input": "Sixteen overlapping 900-second windows with fixed starts one minute apart. Together the views span the recorded half hour.",
+      "training": "An independently initialized SmallCTGCNN used 35 epochs of AdamW and unweighted binary cross-entropy. Each recording contributed one training view per epoch. The short views followed a deterministic cycle.",
+      "cutoff": "TRAIN20 with training-side negative calibration.",
+      "context": "These are the input-standardized results for this registry ID. Historical native-duration results are separate."
+    },
+    "1233": {
+      "model": "SmallCTGCNN · input-standardized replication",
+      "input": "One complete 1,800-second recording window.",
+      "training": "An independently initialized SmallCTGCNN used 35 epochs of AdamW and unweighted binary cross-entropy. Each recording contributed one training view per epoch.",
+      "cutoff": "Reference rule using the source training-negative 10% calibration.",
+      "context": "These are the input-standardized results for this registry ID. Historical native-duration results are separate."
+    },
+    "1234": {
+      "model": "SmallCTGCNN · input-standardized replication",
+      "input": "One complete 1,800-second recording window.",
+      "training": "An independently initialized SmallCTGCNN used 35 epochs of AdamW and unweighted binary cross-entropy. Each recording contributed one training view per epoch.",
+      "cutoff": "TRAIN20 with training-side negative calibration.",
+      "context": "These are the input-standardized results for this registry ID. Historical native-duration results are separate."
+    },
+    "1235": {
+      "model": "SmallCTGCNN · input-standardized replication",
+      "input": "Sixteen overlapping 900-second windows with fixed starts one minute apart. Together the views span the recorded half hour.",
+      "training": "An independently initialized SmallCTGCNN used 35 epochs of AdamW and unweighted binary cross-entropy. Each recording contributed one training view per epoch. The short views followed a deterministic cycle.",
+      "cutoff": "Reference rule using the source training-negative 10% calibration.",
+      "context": "These are the input-standardized results for this registry ID. Historical native-duration results are separate."
+    },
+    "1236": {
+      "model": "SmallCTGCNN · input-standardized replication",
+      "input": "Sixteen overlapping 900-second windows with fixed starts one minute apart. Together the views span the recorded half hour.",
+      "training": "An independently initialized SmallCTGCNN used 35 epochs of AdamW and unweighted binary cross-entropy. Each recording contributed one training view per epoch. The short views followed a deterministic cycle.",
+      "cutoff": "TRAIN20 with training-side negative calibration.",
+      "context": "These are the input-standardized results for this registry ID. Historical native-duration results are separate."
+    }
+  }
+}
