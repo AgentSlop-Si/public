@@ -8,8 +8,8 @@
   <title>OpenKernelChallenge · AgentSlop Research</title>
   <link rel="canonical" href="https://agentslop.si/hackathons/openkernelchallenge/">
   <link rel="stylesheet" href="../kernel.css">
-  <link rel="stylesheet" href="ledger.css?v=2">
-  <script defer src="ledger.js?v=2"></script>
+  <link rel="stylesheet" href="ledger.css?v=10">
+  <script defer src="ledger.js?v=10"></script>
 </head>
 <body id="top">
 <a class="skip" href="#main">Skip to content</a>
@@ -22,7 +22,7 @@
         <h1 id="page-title">OpenKernel<em>Challenge</em></h1>
         <p class="atlas-question">How much time and memory can we save when fine-tuning a language model on one NVIDIA T4?</p>
         <p class="atlas-caution"><b>Measured scope:</b> One saved paired LoRA workload on Kaggle. It is not a contest ranking.</p>
-        <div class="atlas-links"><a class="action mint-action" href="#benchmark">Review the benchmark</a><a class="secondary-action" href="../">All hackathons</a></div>
+        <div class="atlas-links"><a class="action mint-action" href="#public-ledger">Explore public records</a><a class="secondary-action" href="#benchmark">Review the benchmark</a></div>
       </div>
       <figure class="atlas-plate">
         <p class="plate-top"><b>PAIRED BENCHMARK</b><span>KAGGLE · NVIDIA T4</span></p>
@@ -91,20 +91,14 @@
         </div></section>
 
         <section id="research" aria-labelledby="research-heading"><span class="chapter-watermark" aria-hidden="true">03</span><div class="chapter-rail" aria-hidden="true"><b>03</b>Ledger</div><div class="chapter-body">
-          <h2 id="research-heading">What the research ledger contains</h2>
-          <p>The project recorded ideas, small correctness experiments, whole-task runs, and queue attempts separately. The categories overlap and cannot be added together.</p>
-          <dl class="method-list">
-            <div><dt>147 research ideas</dt><dd>131 deferred, eight duplicates, five rejected, and three undecided. Catalog decisions are not run results.</dd></div>
-            <div><dt>67 fusion entries</dt><dd>Nine individual development screens completed. They were not paired benchmarks.</dd></div>
-            <div><dt>133 run records</dt><dd>90 need evidence, 39 failed, and four passed. All four passing rows were baseline references.</dd></div>
-            <div><dt>261 queue requests</dt><dd>88 completed, 172 failed, and one was rejected. Completing execution does not mean that a candidate passed its checks.</dd></div>
-          </dl>
+          <h2 id="research-heading">Explore the public research ledger</h2>
+          <p>Find a public record by ID, title, category, or status. Each record opens its own notes and source.</p>
           <div class="ledger" id="public-ledger" aria-labelledby="ledger-title">
             <header class="ledger-head">
               <div>
                 <p class="label">OpenKernelChallenge · Research registry</p>
                 <h3 id="ledger-title">Browse the research records</h3>
-                <p id="ledger-scope" class="ledger-scope"></p>
+                <p id="ledger-scope" class="ledger-scope">Browse the published source records or download the complete public dataset.</p>
               </div>
               <nav class="ledger-downloads" aria-label="Download the complete public ledger">
                 <a href="ledger-data.csv" download>Download CSV</a>
@@ -122,7 +116,14 @@
               </dl>
               <p class="ledger-detail-notes" id="ledger-detail-notes"></p>
               <a class="ledger-source" id="ledger-detail-source" hidden>Open public evidence</a>
+              <div class="ledger-share" id="ledger-share" hidden>
+                <button type="button" id="ledger-copy">Copy record link</button>
+                <label class="ledger-share-fallback" id="ledger-share-fallback" hidden>Record URL<input id="ledger-share-url" type="url" readonly></label>
+                <span id="ledger-copy-status" role="status"></span>
+              </div>
+              <nav class="ledger-neighbors" id="ledger-neighbors" aria-label="Nearby records in this category" hidden></nav>
             </article>
+            <nav class="ledger-quick-categories" id="ledger-quick-categories" aria-label="Quick category filters" hidden></nav>
             <div class="ledger-controls" id="ledger-controls" hidden>
               <label class="ledger-search">Search records<input id="ledger-search" type="search" placeholder="ID, title, status or notes" spellcheck="false" autocomplete="off"></label>
               <label>Category<select id="ledger-category"><option value="">All categories</option></select></label>
@@ -132,7 +133,13 @@
               <button type="button" id="ledger-reset">Reset</button>
             </div>
             <p class="ledger-readout" id="ledger-readout" role="status" aria-live="polite"></p>
+            <p class="ledger-retry" id="ledger-retry-wrap" hidden><button type="button" id="ledger-retry">Retry table load</button></p>
             <div class="ledger-guide" id="ledger-guide" hidden><p>Open a record to read its full notes and evidence. Select a column heading or use the sort menu to reorder records.</p><button type="button" id="ledger-export-filtered">Export matching CSV</button></div>
+            <nav class="ledger-pages ledger-pages-top" id="ledger-pages-top" aria-label="Ledger pagination above records" hidden>
+              <button type="button" id="ledger-prev-top">Previous</button>
+              <span id="ledger-page-top"></span>
+              <button type="button" id="ledger-next-top">Next</button>
+            </nav>
             <div class="ledger-scroll" tabindex="0" role="region" aria-label="Research records table" aria-describedby="ledger-guide" id="ledger-table-wrap" hidden>
               <table role="table">
                 <caption class="sr-only">Individual records from the public OpenKernelChallenge research registry</caption>
@@ -141,7 +148,7 @@
                   <th scope="col" role="columnheader"><button type="button" data-order="category">Category <span aria-hidden="true"></span></button></th>
                   <th scope="col" role="columnheader"><button type="button" data-order="title">Record <span aria-hidden="true"></span></button></th>
                   <th scope="col" role="columnheader"><button type="button" data-order="status">Status <span aria-hidden="true"></span></button></th>
-                  <th scope="col" role="columnheader">Notes and evidence</th>
+                  <th scope="col" role="columnheader">Notes &amp; public source</th>
                 </tr></thead>
                 <tbody id="ledger-records" role="rowgroup"></tbody>
               </table>
@@ -153,6 +160,14 @@
             </nav>
             <noscript><p class="ledger-fallback">The interactive table requires JavaScript. The CSV and JSON above contain the complete public dataset.</p></noscript>
           </div>
+          <h3>Project activity totals</h3>
+          <p>These four overlapping categories describe the broader project tracker, not the number of public rows above.</p>
+          <dl class="method-list">
+            <div><dt>147 research ideas</dt><dd>131 deferred, eight duplicates, five rejected, and three undecided. Catalog decisions are not run results.</dd></div>
+            <div><dt>67 fusion entries</dt><dd>Nine individual development screens completed. They were not paired benchmarks.</dd></div>
+            <div><dt>133 run records</dt><dd>90 need evidence, 39 failed, and four passed. All four passing rows were baseline references.</dd></div>
+            <div><dt>261 queue requests</dt><dd>88 completed, 172 failed, and one was rejected. Completing execution does not mean that a candidate passed its checks.</dd></div>
+          </dl>
           <h3>Why the distinctions matter</h3>
           <ul class="roadmap">
             <li><p><strong>Component checks:</strong> LoRA saved-state replay passed local comparisons, including CPU autograd cases. This did not establish GPU memory savings or whole-task speed.</p></li>

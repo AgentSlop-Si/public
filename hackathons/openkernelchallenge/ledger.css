@@ -223,7 +223,7 @@
   .ledger .ledger-evidence { min-width: 0; max-width: 31ch; }
 }
 @media (max-width: 760px) {
-  #public-ledger, .ledger-scroll { scroll-margin-top: 105px; }
+
   .chapter-watermark { inset: .06em .09em auto auto; font-size: clamp(5.5rem, 20vw, 9rem); }
   .ledger-mobile-sort { display: grid !important; }
   .ledger table,.ledger tbody { display: block; width: 100%; }
@@ -253,3 +253,63 @@
   .ledger-record:nth-child(even) { background: #f0f5f4; }
   .ledger-record:is(:hover,:focus-within) { background: #e2f1ed; }
 }
+
+/* Ledger category strip */
+.ledger-quick-categories { display:flex; flex-wrap:wrap; gap:7px; padding:14px clamp(14px,2vw,21px); border-bottom:1px solid var(--rule); background:#f0f5f4; }
+.ledger-quick-categories button { display:inline-flex; align-items:center; gap:7px; min-height:44px; padding:.35rem .65rem; border:1px solid #89a5a4; border-radius:5px; background:#fcfdfb; color:#154b51; font:650 .875rem/1.25 var(--sans); cursor:pointer; }
+.ledger-quick-categories button span { border-radius:3px; padding:.08rem .25rem; background:#e0edeb; color:#31575c; font:600 .73rem/1.3 var(--mono); }
+.ledger-quick-categories button[aria-pressed="true"],.ledger-quick-categories button:hover { color:#e4f6ef; background:#14575a; border-color:#14575a; }
+
+.ledger-pages-top { border-top:1px solid var(--rule); background:#f4f8f6; }
+
+/* Uniform preview width and more legible evidence labels. */
+.ledger .ledger-evidence a { margin:.22rem 0 0; display:table; text-decoration-color:#698e8e; }
+.ledger-title-cell { width:28%; }
+.ledger-status-measured { border-color:#487d73; color:#164b41; background:#d9efe4; }
+.ledger th[aria-sort] { box-shadow:inset 0 -2px #167f78; }
+@media(max-width:970px){ .ledger-title-cell { width:auto; } }
+
+.ledger-retry{padding:4px clamp(14px,2vw,21px) 16px}
+.ledger-retry button{min-height:44px;border:1px solid #709496;border-radius:5px;background:#edf4f2;color:#084b51;padding:.35rem .65rem;font:650 .9rem var(--sans);cursor:pointer}
+.ledger-retry button:hover{background:#d8eee9}
+
+.ledger-neighbors{display:flex;flex-wrap:wrap;gap:.25rem 1.2rem;border-top:1px solid var(--rule);margin-top:1.2rem;padding-top:.5rem}
+.ledger-neighbors a{display:inline-flex;align-items:center;min-height:44px;font:650 .9rem var(--sans)}
+
+.ledger-share{display:flex;align-items:center;flex-wrap:wrap;gap:.45rem .8rem;margin-top:1rem}
+.ledger-share button{min-height:44px;border:1px solid #709496;border-radius:5px;background:#edf4f2;color:#084b51;padding:.35rem .65rem;font:650 .9rem var(--sans);cursor:pointer}
+.ledger-share button:hover{background:#d8eee9}
+.ledger-share-fallback{display:grid;flex:1 0 100%;gap:5px;font-size:.9rem}
+.ledger-share-fallback input{min-height:44px;border:1px solid #709496;background:#fff;color:var(--ink);padding:.35rem .65rem;font:inherit}
+
+.ledger-card-key{display:none}
+@media(max-width:970px){
+  .ledger-card-key{display:inline;color:var(--sub);font:650 .74rem var(--sans);margin-right:.3rem}
+  .ledger-row-status .ledger-card-key{display:block;margin-bottom:.16rem;text-align:right}
+  .ledger-record-link .ledger-open-hint{text-decoration:none}
+}
+@media(forced-colors:active){.ledger-record-link{text-decoration:underline}.ledger th[aria-sort]{box-shadow:none;border-bottom:2px solid currentColor}.ledger-status-tag{border:1px solid currentColor}}
+
+/* Tie the ledger controls back to the Atlas chapter system. */
+.ledger{border-color:#9bb4b5;box-shadow:inset 0 1px #fff}
+.ledger-head{border-bottom:1px solid #49636c}
+.ledger-detail{background:linear-gradient(160deg,#fcfdfb 0%,#f0f7f4 100%)}
+.ledger-pages:focus-within,.ledger-retry:focus-within{background:#e9f2ef}
+.ledger-empty{padding-block:1.2rem !important}
+@media(max-width:970px){
+  .chapter-watermark{opacity:.085}
+  .ledger-quick-categories button{min-height:44px}
+  .ledger-record-link{font-size:.98rem}
+  .ledger-pages{font-size:.78rem}
+}
+@media(max-width:540px){.ledger-quick-categories{display:none}}
+@media print{
+  .ledger-quick-categories,.ledger-neighbors,.ledger-share,.ledger-downloads,.ledger-controls,.ledger-pages,.ledger-guide{display:none!important}
+  .ledger-head{background:#fff;color:#112d38}
+  .ledger-head .label,.ledger-scope{color:#145e61}
+}
+
+.subnav a[aria-current=location]{color:#fff;background:#214451}
+.subnav a[aria-current=location]:after{transform:scaleX(1)}
+
+@media(max-width:690px){#public-ledger,.ledger-scroll{scroll-margin-top:105px}}
