@@ -8,6 +8,8 @@
   <title>OpenKernelChallenge · AgentSlop Research</title>
   <link rel="canonical" href="https://agentslop.si/hackathons/openkernelchallenge/">
   <link rel="stylesheet" href="../kernel.css">
+  <link rel="stylesheet" href="ledger.css">
+  <script defer src="ledger.js"></script>
 </head>
 <body id="top">
 <a class="skip" href="#main">Skip to content</a>
@@ -97,6 +99,47 @@
             <div><dt>133 run records</dt><dd>90 need evidence, 39 failed, and four passed. All four passing rows were baseline references.</dd></div>
             <div><dt>261 queue requests</dt><dd>88 completed, 172 failed, and one was rejected. Completing execution does not mean that a candidate passed its checks.</dd></div>
           </dl>
+          <div class="ledger" id="public-ledger" aria-labelledby="ledger-title">
+            <header class="ledger-head">
+              <div>
+                <p class="label">OpenKernelChallenge · Research registry</p>
+                <h3 id="ledger-title">Browse the research records</h3>
+                <p id="ledger-scope" class="ledger-scope"></p>
+              </div>
+              <nav class="ledger-downloads" aria-label="Download the complete public ledger">
+                <a href="ledger-data.csv" download>Download CSV</a>
+                <a href="ledger-data.json" download>Download JSON</a>
+              </nav>
+            </header>
+            <div class="ledger-controls" id="ledger-controls" hidden>
+              <label class="ledger-search">Search records<input id="ledger-search" type="search" placeholder="ID, title, status or notes" spellcheck="false" autocomplete="off"></label>
+              <label>Category<select id="ledger-category"><option value="">All categories</option></select></label>
+              <label>Status<select id="ledger-status"><option value="">All statuses</option></select></label>
+              <label>Rows per page<select id="ledger-size"><option value="25">25</option><option value="50">50</option><option value="100">100</option></select></label>
+              <button type="button" id="ledger-reset">Reset</button>
+            </div>
+            <p class="ledger-readout" id="ledger-readout" role="status" aria-live="polite"></p>
+            <div class="ledger-guide" id="ledger-guide" hidden><p>Sort by selecting a column heading. On narrow screens, scroll the table horizontally for notes and sources.</p><button type="button" id="ledger-export-filtered">Export matching CSV</button></div>
+            <div class="ledger-scroll" tabindex="0" role="region" aria-label="Research records table" aria-describedby="ledger-guide" id="ledger-table-wrap" hidden>
+              <table>
+                <caption class="sr-only">Individual records from the public OpenKernelChallenge research registry</caption>
+                <thead><tr>
+                  <th scope="col"><button type="button" data-order="id">Record ID <span aria-hidden="true"></span></button></th>
+                  <th scope="col"><button type="button" data-order="category">Category <span aria-hidden="true"></span></button></th>
+                  <th scope="col"><button type="button" data-order="title">Record <span aria-hidden="true"></span></button></th>
+                  <th scope="col"><button type="button" data-order="status">Status <span aria-hidden="true"></span></button></th>
+                  <th scope="col">Notes and evidence</th>
+                </tr></thead>
+                <tbody id="ledger-records"></tbody>
+              </table>
+            </div>
+            <nav class="ledger-pages" id="ledger-pages" aria-label="Ledger pagination" hidden>
+              <button type="button" id="ledger-prev">Previous</button>
+              <span id="ledger-page"></span>
+              <button type="button" id="ledger-next">Next</button>
+            </nav>
+            <noscript><p class="ledger-fallback">The interactive table requires JavaScript. The CSV and JSON above contain the complete public dataset.</p></noscript>
+          </div>
           <h3>Why the distinctions matter</h3>
           <ul class="roadmap">
             <li><p><strong>Component checks:</strong> LoRA saved-state replay passed local comparisons, including CPU autograd cases. This did not establish GPU memory savings or whole-task speed.</p></li>
