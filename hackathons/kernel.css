@@ -74,3 +74,41 @@
   font-size: .875rem;
   font-weight: 400;
 }
+
+.kernel-title { overflow-wrap: anywhere; }
+
+.kernel-breadcrumb,
+.kernel-report-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .25rem 1rem;
+  font-size: .94rem;
+}
+
+.kernel-breadcrumb { margin-bottom: 1.3rem; color: var(--muted); }
+.kernel-report-links { margin-top: 1rem; }
+.kernel-report-links a { display: inline-block; padding-block: .45rem; }
+
+.kernel-card-metrics {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.kernel-card-metrics > div {
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: flex-end;
+}
+
+.kernel-card-metrics dt { color: #d1e2d8; font-size: .9rem; }
+.kernel-card-metrics dd {
+  margin-bottom: .35rem;
+  color: #f3f8f2;
+  font: 400 clamp(2rem, 4.5vw, 3.4rem)/1 var(--serif);
+  font-variant-numeric: lining-nums tabular-nums;
+}
+
+@media (max-width: 22rem) {
+  .kernel-card-metrics { grid-template-columns: 1fr; }
+}

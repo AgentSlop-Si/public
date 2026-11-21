@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="The Soup Kernel Challenge: NVIDIA T4 LoRA kernel optimization, paired benchmark evidence, and the research archive.">
+  <meta name="description" content="AgentSlop hackathon projects, with technical write-ups, measured results, and public evidence.">
   <meta name="theme-color" content="#f6f8f3">
   <title>Hackathons · AgentSlop Research</title>
   <link rel="canonical" href="https://agentslop.si/hackathons/">
@@ -22,119 +22,39 @@
     </div>
   </header>
 
-  <main id="main" class="shell">
-    <section class="hero" aria-labelledby="page-title">
-      <div class="hero-copy">
-        <p class="label">Hackathons · GPU systems</p>
-        <h1 id="page-title">Soup Kernel Challenge</h1>
-        <p class="lede">We optimized the kernels used to fine-tune a language model on one NVIDIA T4. The saved paired run took less time and used less GPU memory while retaining the same training task.</p>
-        <a class="button" href="#benchmark">Review the benchmark</a>
-      </div>
-      <figure class="trace kernel-chart">
-        <div class="kernel-chart-inner">
-          <p class="kernel-kicker">Historical paired benchmark · Kaggle T4</p>
-          <div class="kernel-measure">
-            <h2>End-to-end command time</h2>
-            <div class="kernel-series">
-              <div class="kernel-bar-copy"><span>Baseline</span><strong>86.39 s</strong></div>
-              <div class="kernel-track" aria-hidden="true"><span class="kernel-bar kernel-base"></span></div>
-            </div>
-            <div class="kernel-series">
-              <div class="kernel-bar-copy"><span>Optimized</span><strong>47.73 s</strong></div>
-              <div class="kernel-track" aria-hidden="true"><span class="kernel-bar kernel-time"></span></div>
-            </div>
-          </div>
-          <div class="kernel-measure">
-            <h2>Peak GPU memory</h2>
-            <div class="kernel-series">
-              <div class="kernel-bar-copy"><span>Baseline</span><strong>14,345 MiB</strong></div>
-              <div class="kernel-track" aria-hidden="true"><span class="kernel-bar kernel-base"></span></div>
-            </div>
-            <div class="kernel-series">
-              <div class="kernel-bar-copy"><span>Optimized</span><strong>2,263 MiB</strong></div>
-              <div class="kernel-track" aria-hidden="true"><span class="kernel-bar kernel-memory"></span></div>
-            </div>
-          </div>
-        </div>
-        <figcaption>Bars are scaled to the baseline within each metric. Lower is better.</figcaption>
-      </figure>
-    </section>
-
-    <dl class="study-stats" aria-label="Paired benchmark summary">
-      <div><dt>End-to-end speedup</dt><dd>1.81×</dd></div>
-      <div><dt>Lower peak GPU memory</dt><dd>84.2%</dd></div>
-      <div><dt>Automated checks passed</dt><dd>10/10</dd></div>
-      <div><dt>Regression tests passed</dt><dd>79/79</dd></div>
-    </dl>
-
-    <div class="report-layout">
-      <aside class="contents" aria-label="Page contents">
-        <p class="label">On this page</p>
-        <nav aria-label="On this page">
-          <a href="#benchmark">Benchmark</a>
-          <a href="#implementation">Implementation</a>
-          <a href="#research">Research ledger</a>
-          <a href="#evidence">Evidence and reproduction</a>
-        </nav>
-      </aside>
-
-      <article class="report" aria-label="Soup Kernel Challenge project report">
-        <section id="benchmark" aria-labelledby="benchmark-heading">
-          <h2 id="benchmark-heading">A paired result, not a leaderboard claim</h2>
-          <p>The saved Kaggle session measured the baseline, then two optimized runs, then the baseline again. It used one T4 for a fixed 64-step LoRA workload based on Qwen2.5-1.5B-Instruct. End-to-end time includes setup, compilation, training, and saving the adapter.</p>
-          <div class="table-wrap">
-            <table>
-              <caption class="sr-only">Saved paired benchmark results</caption>
-              <thead><tr><th scope="col">Metric</th><th scope="col">Baseline</th><th scope="col">Optimized</th></tr></thead>
-              <tbody>
-                <tr><th scope="row">End-to-end time<small class="kernel-detail">Median of two runs</small></th><td>86.39 s</td><td>47.73 s</td></tr>
-                <tr><th scope="row">Training-loop time<small class="kernel-detail">Median of two runs</small></th><td>62.95 s</td><td>33.63 s</td></tr>
-                <tr><th scope="row">Peak GPU memory<small class="kernel-detail">Maximum of two runs</small></th><td>14,345 MiB</td><td>2,263 MiB</td></tr>
-                <tr><th scope="row">Evaluation loss</th><td>2.04966</td><td>2.04984</td></tr>
-              </tbody>
-            </table>
-          </div>
-          <p class="scope-note"><strong>Scope:</strong> These are historical measurements for the saved configuration. Automated checks are not evidence of a jury decision or contest placement. The current public archive was not benchmarked again after cleanup.</p>
-        </section>
-
-        <section id="implementation" aria-labelledby="implementation-heading">
-          <h2 id="implementation-heading">What changed in the kernels</h2>
-          <dl class="method-list">
-            <div><dt>Output head and loss</dt><dd>Process the vocabulary in blocks instead of holding the full logits tensor in memory, while still computing loss and training metrics across the vocabulary.</dd></div>
-            <div><dt>Backward pass</dt><dd>Recompute MLP gate and up projections on supported paths rather than retaining wide activations.</dd></div>
-            <div><dt>Quantized projections</dt><dd>Share NF4 dequantization across compatible projections and group QKV operations without changing the stored quantization format.</dd></div>
-            <div><dt>Normalization and position</dt><dd>Reduce intermediate buffers, type casts, and some work on padding rows in supported RMSNorm and RoPE paths.</dd></div>
-          </dl>
-        </section>
-
-        <section id="research" aria-labelledby="research-heading">
-          <h2 id="research-heading">What the research ledger contains</h2>
-          <p>The project recorded ideas, small correctness experiments, whole-task runs, and queue attempts separately. The categories overlap and cannot be added together.</p>
-          <dl class="method-list">
-            <div><dt>147 research ideas</dt><dd>131 deferred, eight duplicates, five rejected, and three undecided. Catalog decisions are not run results.</dd></div>
-            <div><dt>67 fusion entries</dt><dd>Nine individual development screens completed. They were not paired benchmarks.</dd></div>
-            <div><dt>133 run records</dt><dd>90 need evidence, 39 failed, and four passed. All four passing rows were baseline references.</dd></div>
-            <div><dt>261 queue requests</dt><dd>88 completed, 172 failed, and one was rejected. Completing execution does not mean that a candidate passed its checks.</dd></div>
-          </dl>
-          <h3>Why the distinctions matter</h3>
-          <ul class="roadmap">
-            <li><p><strong>Component checks:</strong> LoRA saved-state replay passed local comparisons, including CPU autograd cases. This did not establish GPU memory savings or whole-task speed.</p></li>
-            <li><p><strong>Development comparisons:</strong> A 38.12 s training-command result was compared with a saved 38.49 s optimized reference, not a freshly paired baseline. It does not replace the 47.73 s paired result.</p></li>
-            <li><p><strong>Negative results:</strong> The archive keeps failed admission checks, an NF4 parity failure, and partial runs. An observed peak from an unfinished job is not a full-run memory result.</p></li>
-          </ul>
-        </section>
-
-        <section id="evidence" aria-labelledby="evidence-heading">
-          <h2 id="evidence-heading">Evidence and reproduction</h2>
-          <p>The public archive includes the implementation, pinned notebook, run harness, and supporting evidence. The notebook targets one T4 and needs internet access to install dependencies and fetch the model and dataset.</p>
-          <ul class="source-list">
-            <li><a href="https://github.com/Danonika/openkernelchallenge">Project repository</a> and <a href="https://github.com/Danonika/openkernelchallenge/blob/0481e796d20548e70bf3537489ed811bb1a843cf/README.md#research-ledger-and-evidence">research ledger and archive links</a></li>
-            <li><a href="https://github.com/Danonika/openkernelchallenge/blob/0481e796d20548e70bf3537489ed811bb1a843cf/docs/evidence-final-v1/result.json">Saved benchmark measurements</a> and <a href="https://github.com/Danonika/openkernelchallenge/blob/0481e796d20548e70bf3537489ed811bb1a843cf/docs/evidence-final-v1/checks.json">automated checks</a></li>
-            <li><a href="https://github.com/Danonika/openkernelchallenge/blob/0481e796d20548e70bf3537489ed811bb1a843cf/notebooks/Soup-Duo-Final-Submission-v1.ipynb">Reproduction notebook</a> and <a href="https://github.com/Danonika/openkernelchallenge/blob/0481e796d20548e70bf3537489ed811bb1a843cf/README.md#reproduce-the-benchmark">run instructions</a></li>
-          </ul>
-        </section>
-      </article>
+  <main id="main" class="shell landing">
+    <div class="landing-intro">
+      <h1>Hackathons</h1>
+      <p>What we built under contest constraints, how we measured it, and what the experiments taught us.</p>
     </div>
+
+    <section aria-labelledby="projects-heading">
+      <h2 class="label" id="projects-heading">Project archive</h2>
+      <article class="study-card kernel-project" aria-labelledby="kernel-card-title">
+        <div class="study-card-copy">
+          <p class="meta">Soup Kernel Challenge <span aria-hidden="true">·</span> GPU systems</p>
+          <h3 id="kernel-card-title" class="kernel-title">OpenKernel<wbr>Challenge</h3>
+          <p>We redesigned kernels for LoRA fine-tuning on one NVIDIA T4. The project report explains the changes, shows the paired run, and separates measured results from experiments that failed or remain unverified.</p>
+          <a class="button" href="openkernelchallenge/">Read the project report</a>
+        </div>
+        <figure class="trace">
+          <div class="kernel-chart-inner">
+            <p class="kernel-kicker">Historical paired benchmark · Kaggle T4</p>
+            <dl class="kernel-card-metrics">
+              <div><dt>End-to-end speedup</dt><dd>1.81×</dd></div>
+              <div><dt>Lower peak GPU memory</dt><dd>84.2%</dd></div>
+            </dl>
+          </div>
+          <figcaption>One saved configuration. The figures are not a contest ranking.</figcaption>
+        </figure>
+      </article>
+      <nav class="kernel-report-links" aria-label="Project report shortcuts">
+        <a id="benchmark" href="openkernelchallenge/#benchmark">Benchmark</a>
+        <a id="implementation" href="openkernelchallenge/#implementation">Implementation</a>
+        <a id="research" href="openkernelchallenge/#research">Research ledger</a>
+        <a id="evidence" href="openkernelchallenge/#evidence">Evidence and reproduction</a>
+      </nav>
+    </section>
   </main>
 
   <footer class="site-footer">
