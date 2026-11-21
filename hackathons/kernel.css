@@ -1,0 +1,76 @@
+.kernel-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .3rem 1rem;
+}
+
+.kernel-nav a[aria-current="page"] {
+  text-decoration: underline;
+  text-underline-offset: .25em;
+}
+
+.kernel-chart-inner {
+  padding: clamp(1.1rem, 3vw, 2rem);
+}
+
+.kernel-kicker {
+  margin: 0 0 1.25rem;
+  color: #bbd5c7;
+  font-size: .875rem;
+  font-weight: 650;
+  letter-spacing: .065em;
+  text-transform: uppercase;
+}
+
+.kernel-measure + .kernel-measure {
+  margin-top: 1.25rem;
+  padding-top: 1.1rem;
+  border-top: 1px solid #38554b;
+}
+
+.kernel-measure h2 {
+  margin-bottom: .6rem;
+  color: #f3f8f2;
+  font: 400 clamp(1.25rem, 2.5vw, 1.55rem)/1.17 var(--serif);
+}
+
+.kernel-series + .kernel-series { margin-top: .52rem; }
+
+.kernel-bar-copy {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: .12rem .75rem;
+  color: #d1e2d8;
+  font-size: .9rem;
+}
+
+.kernel-bar-copy strong {
+  color: #f3f8f2;
+  font-variant-numeric: tabular-nums;
+}
+
+.kernel-track {
+  height: .46rem;
+  margin-top: .27rem;
+  border-radius: .2rem;
+  background: #304a3d;
+}
+
+.kernel-bar {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: #89cbb2;
+}
+
+.kernel-base { width: 100%; background: #b4c1b7; }
+.kernel-time { width: 55.25%; }
+.kernel-memory { width: 15.77%; }
+
+.kernel-detail {
+  display: block;
+  color: var(--muted);
+  font-size: .875rem;
+  font-weight: 400;
+}
