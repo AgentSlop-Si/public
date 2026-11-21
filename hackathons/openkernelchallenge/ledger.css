@@ -138,3 +138,118 @@
 }
 .ledger-guide button:not(:disabled):hover { background: #d7ece9; }
 .ledger-guide button:disabled { opacity: .56; cursor: not-allowed; }
+
+/* Record links and chapter folios */
+.report section { position: relative; isolation: isolate; }
+.chapter-watermark {
+  position: absolute;
+  inset: .01em .07em auto auto;
+  z-index: -1;
+  color: #185c64;
+  opacity: .075;
+  font: normal clamp(7rem, 17vw, 15rem)/.88 var(--serif);
+  letter-spacing: -.11em;
+  user-select: none;
+  pointer-events: none;
+}
+.chapter-body { min-width: 0; }
+#public-ledger, .ledger-scroll { scroll-margin-top: 65px; }
+.ledger-mobile-sort { display: none !important; }
+.ledger-record { cursor: pointer; }
+.ledger-record:is(:hover,:focus-within) :is(td,th[scope=row]) { background: #e2f1ed; }
+.ledger-title-cell { font-weight: 630; }
+.ledger-record-link {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: .2rem;
+  min-height: 44px;
+  color: #084b51;
+  overflow-wrap: anywhere;
+  font-weight: 680;
+  text-decoration: underline;
+}
+.ledger-open-hint {
+  align-self: flex-start;
+  margin: 0;
+  color: var(--sub);
+  font: 600 .72rem/1.2 var(--mono);
+  text-decoration: none;
+}
+.ledger-record-link:focus-visible { outline-offset: 1px; }
+.ledger-detail {
+  position: relative;
+  padding: clamp(17px, 3.2vw, 38px);
+  overflow-wrap: anywhere;
+}
+.ledger-detail .label { margin-top: .95rem; }
+.ledger-detail h4 {
+  margin: .38rem 0 .9rem;
+  color: var(--ink);
+  font: normal clamp(1.85rem, 4.1vw, 3.1rem)/1.12 var(--serif);
+  letter-spacing: -.035em;
+}
+.ledger-detail h4:focus { outline: none; }
+.ledger-detail-meta {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(min(100%,9rem),1fr));
+  gap: 1px;
+  border: 1px solid var(--rule);
+  background: var(--rule);
+  margin-block: .85rem 1.15rem;
+}
+.ledger-detail-meta > div { background: #edf4f2; padding: .65rem .8rem; }
+.ledger-detail-meta dt { color: var(--sub); font-size: .85rem; font-weight: 650; }
+.ledger-detail-meta dd { color: var(--ink); margin-top: .12rem; }
+.ledger-detail-notes { max-width: 78ch; white-space: pre-wrap; }
+.ledger-return,.ledger-source {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: .35rem .65rem;
+  border: 1px solid #709496;
+  border-radius: 5px;
+  background: #edf4f2;
+  color: #084b51;
+  font-size: .9rem;
+  font-weight: 650;
+  text-decoration: none;
+}
+.ledger-source { margin-top: 1rem; background: #123641; color: #d5f7ed; }
+.ledger-return:hover { background: #d8eee9; }
+.ledger-source:hover { background: #205657; color: #fff; }
+@media (max-width: 1050px) {
+  .ledger table { min-width: 0; table-layout: auto; }
+  .ledger .ledger-evidence { min-width: 0; max-width: 31ch; }
+}
+@media (max-width: 760px) {
+  #public-ledger, .ledger-scroll { scroll-margin-top: 105px; }
+  .chapter-watermark { inset: .06em .09em auto auto; font-size: clamp(5.5rem, 20vw, 9rem); }
+  .ledger-mobile-sort { display: grid !important; }
+  .ledger table,.ledger tbody { display: block; width: 100%; }
+  .ledger thead,.ledger-record .ledger-evidence { display: none; }
+  .ledger tbody .ledger-record {
+    display: grid;
+    grid-template-columns: minmax(0,1fr) minmax(0,1fr);
+    gap: 1px .6rem;
+    border-top: 1px solid var(--rule);
+    padding: .65rem clamp(14px, 2vw, 21px);
+  }
+  .ledger tbody .ledger-record:first-child { border-top: 0; }
+  .ledger tbody .ledger-record > * {
+    display: block;
+    min-width: 0;
+    padding: 0;
+    border: 0;
+  }
+  .ledger .ledger-title-cell { grid-area: 1 / 1 / 2 / 3; }
+  .ledger .ledger-id { grid-area: 2 / 1; font-size: .8rem; }
+  .ledger .ledger-row-category { grid-area: 3 / 1; color: var(--sub); }
+  .ledger .ledger-row-status { grid-area: 2 / 2 / 4 / 3; justify-self: end; align-self: center; }
+  .ledger .ledger-status-tag { overflow-wrap: anywhere; }
+  .ledger .ledger-evidence { display: none !important; }
+  .ledger tr:nth-child(even) td,.ledger tr:nth-child(even) th[scope=row],
+  .ledger-record:is(:hover,:focus-within) :is(td,th[scope=row]) { background: transparent; }
+  .ledger-record:nth-child(even) { background: #f0f5f4; }
+  .ledger-record:is(:hover,:focus-within) { background: #e2f1ed; }
+}

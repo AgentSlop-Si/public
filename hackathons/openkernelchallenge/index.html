@@ -8,8 +8,8 @@
   <title>OpenKernelChallenge · AgentSlop Research</title>
   <link rel="canonical" href="https://agentslop.si/hackathons/openkernelchallenge/">
   <link rel="stylesheet" href="../kernel.css">
-  <link rel="stylesheet" href="ledger.css">
-  <script defer src="ledger.js"></script>
+  <link rel="stylesheet" href="ledger.css?v=2">
+  <script defer src="ledger.js?v=2"></script>
 </head>
 <body id="top">
 <a class="skip" href="#main">Skip to content</a>
@@ -62,7 +62,7 @@
   </div>
   <nav class="subnav" aria-label="Project chapters"><div class="frame nav-rail"><a href="#benchmark"><span>01</span> Benchmark</a><a href="#implementation"><span>02</span> Implementation</a><a href="#research"><span>03</span> Research ledger</a><a href="#evidence"><span>04</span> Evidence and reproduction</a></div></nav>
   <article class="report frame" aria-label="Soup Kernel Challenge project report">
-        <section id="benchmark" aria-labelledby="benchmark-heading"><div class="chapter-rail" aria-hidden="true"><b>01</b>Benchmark</div><div class="chapter-body">
+        <section id="benchmark" aria-labelledby="benchmark-heading"><span class="chapter-watermark" aria-hidden="true">01</span><div class="chapter-rail" aria-hidden="true"><b>01</b>Benchmark</div><div class="chapter-body">
           <h2 id="benchmark-heading">A paired result, not a leaderboard claim</h2>
           <p>The saved Kaggle session measured the baseline, then two optimized runs, then the baseline again. It used one T4 for a fixed 64-step LoRA workload based on Qwen2.5-1.5B-Instruct. End-to-end time includes setup, compilation, training, and saving the adapter.</p>
           <div class="table-wrap">
@@ -80,7 +80,7 @@
           <p class="scope-note"><strong>Scope:</strong> These are historical measurements for the saved configuration. Automated checks are not evidence of a jury decision or contest placement. The current public archive was not benchmarked again after cleanup.</p>
         </div></section>
 
-        <section id="implementation" aria-labelledby="implementation-heading"><div class="chapter-rail" aria-hidden="true"><b>02</b>Implementation</div><div class="chapter-body">
+        <section id="implementation" aria-labelledby="implementation-heading"><span class="chapter-watermark" aria-hidden="true">02</span><div class="chapter-rail" aria-hidden="true"><b>02</b>Implementation</div><div class="chapter-body">
           <h2 id="implementation-heading">What changed in the kernels</h2>
           <dl class="method-list">
             <div><dt>Output head and loss</dt><dd>Process the vocabulary in blocks instead of holding the full logits tensor in memory, while still computing loss and training metrics across the vocabulary.</dd></div>
@@ -90,7 +90,7 @@
           </dl>
         </div></section>
 
-        <section id="research" aria-labelledby="research-heading"><div class="chapter-rail" aria-hidden="true"><b>03</b>Ledger</div><div class="chapter-body">
+        <section id="research" aria-labelledby="research-heading"><span class="chapter-watermark" aria-hidden="true">03</span><div class="chapter-rail" aria-hidden="true"><b>03</b>Ledger</div><div class="chapter-body">
           <h2 id="research-heading">What the research ledger contains</h2>
           <p>The project recorded ideas, small correctness experiments, whole-task runs, and queue attempts separately. The categories overlap and cannot be added together.</p>
           <dl class="method-list">
@@ -111,26 +111,39 @@
                 <a href="ledger-data.json" download>Download JSON</a>
               </nav>
             </header>
+            <article id="ledger-detail" class="ledger-detail" aria-labelledby="ledger-detail-title" hidden>
+              <a class="ledger-return" href="./#public-ledger" id="ledger-return">Back to all records</a>
+              <p class="label" id="ledger-detail-type"></p>
+              <h4 id="ledger-detail-title" tabindex="-1"></h4>
+              <dl class="ledger-detail-meta">
+                <div><dt>Record ID</dt><dd id="ledger-detail-id"></dd></div>
+                <div><dt>Category</dt><dd id="ledger-detail-category"></dd></div>
+                <div><dt>Status</dt><dd id="ledger-detail-status"></dd></div>
+              </dl>
+              <p class="ledger-detail-notes" id="ledger-detail-notes"></p>
+              <a class="ledger-source" id="ledger-detail-source" hidden>Open public evidence</a>
+            </article>
             <div class="ledger-controls" id="ledger-controls" hidden>
               <label class="ledger-search">Search records<input id="ledger-search" type="search" placeholder="ID, title, status or notes" spellcheck="false" autocomplete="off"></label>
               <label>Category<select id="ledger-category"><option value="">All categories</option></select></label>
               <label>Status<select id="ledger-status"><option value="">All statuses</option></select></label>
               <label>Rows per page<select id="ledger-size"><option value="25">25</option><option value="50">50</option><option value="100">100</option></select></label>
+              <label class="ledger-mobile-sort">Sort records<select id="ledger-mobile-sort"><option value="id:1">Record ID, ascending</option><option value="id:-1">Record ID, descending</option><option value="category:1">Category, A–Z</option><option value="category:-1">Category, Z–A</option><option value="title:1">Record, A–Z</option><option value="title:-1">Record, Z–A</option><option value="status:1">Status, A–Z</option><option value="status:-1">Status, Z–A</option></select></label>
               <button type="button" id="ledger-reset">Reset</button>
             </div>
             <p class="ledger-readout" id="ledger-readout" role="status" aria-live="polite"></p>
-            <div class="ledger-guide" id="ledger-guide" hidden><p>Sort by selecting a column heading. On narrow screens, scroll the table horizontally for notes and sources.</p><button type="button" id="ledger-export-filtered">Export matching CSV</button></div>
+            <div class="ledger-guide" id="ledger-guide" hidden><p>Open a record to read its full notes and evidence. Select a column heading or use the sort menu to reorder records.</p><button type="button" id="ledger-export-filtered">Export matching CSV</button></div>
             <div class="ledger-scroll" tabindex="0" role="region" aria-label="Research records table" aria-describedby="ledger-guide" id="ledger-table-wrap" hidden>
-              <table>
+              <table role="table">
                 <caption class="sr-only">Individual records from the public OpenKernelChallenge research registry</caption>
-                <thead><tr>
-                  <th scope="col"><button type="button" data-order="id">Record ID <span aria-hidden="true"></span></button></th>
-                  <th scope="col"><button type="button" data-order="category">Category <span aria-hidden="true"></span></button></th>
-                  <th scope="col"><button type="button" data-order="title">Record <span aria-hidden="true"></span></button></th>
-                  <th scope="col"><button type="button" data-order="status">Status <span aria-hidden="true"></span></button></th>
-                  <th scope="col">Notes and evidence</th>
+                <thead role="rowgroup"><tr role="row">
+                  <th scope="col" role="columnheader"><button type="button" data-order="id">Record ID <span aria-hidden="true"></span></button></th>
+                  <th scope="col" role="columnheader"><button type="button" data-order="category">Category <span aria-hidden="true"></span></button></th>
+                  <th scope="col" role="columnheader"><button type="button" data-order="title">Record <span aria-hidden="true"></span></button></th>
+                  <th scope="col" role="columnheader"><button type="button" data-order="status">Status <span aria-hidden="true"></span></button></th>
+                  <th scope="col" role="columnheader">Notes and evidence</th>
                 </tr></thead>
-                <tbody id="ledger-records"></tbody>
+                <tbody id="ledger-records" role="rowgroup"></tbody>
               </table>
             </div>
             <nav class="ledger-pages" id="ledger-pages" aria-label="Ledger pagination" hidden>
@@ -148,7 +161,7 @@
           </ul>
         </div></section>
 
-        <section id="evidence" aria-labelledby="evidence-heading"><div class="chapter-rail" aria-hidden="true"><b>04</b>Sources</div><div class="chapter-body">
+        <section id="evidence" aria-labelledby="evidence-heading"><span class="chapter-watermark" aria-hidden="true">04</span><div class="chapter-rail" aria-hidden="true"><b>04</b>Sources</div><div class="chapter-body">
           <h2 id="evidence-heading">Evidence and reproduction</h2>
           <p>The public archive includes the implementation, pinned notebook, run harness, and supporting evidence. The notebook targets one T4 and needs internet access to install dependencies and fetch the model and dataset.</p>
           <ul class="source-list">

@@ -19,6 +19,12 @@
   const next = byId("ledger-next");
   const indicator = byId("ledger-page");
   const exportFiltered = byId("ledger-export-filtered");
+  const detail = byId("ledger-detail");
+  const mobileSort = byId("ledger-mobile-sort");
+  const detailTitle = byId("ledger-detail-title");
+  const listStateKey = "openkernelledger";
+  const requestURL = new URL(window.location.href);
+  const requestedRecord = requestURL.searchParams.get("record");
   const headers = Array.from(table.querySelectorAll("button[data-order]"));
   const collator = new Intl.Collator("en", {numeric: true, sensitivity: "base"});
   const stringify = (v) => (typeof v === "string" ? v.trim() : "");
@@ -53,21 +59,112 @@
     return el;
   }
 
+  function recordURL(row) {
+    const url = new URL("./", window.location.href);
+    url.searchParams.set("record", row.category + ":" + row.id);
+    url.hash = "public-ledger";
+    return url.href;
+  }
+
   function rowNode(row) {
-    const tr = node("tr");
+    const tr = node("tr", "", "ledger-record");
+    tr.setAttribute("role", "row");
     const recordId = node("th", row.id, "ledger-id");
     recordId.scope = "row";
-    const status = node("td");
+    recordId.setAttribute("role", "rowheader");
+    const title = node("td", "", "ledger-title-cell");
+    const open = node("a", row.title, "ledger-record-link");
+    open.href = recordURL(row);
+    open.dataset.record = row.category + ":" + row.id;
+    const hint = node("span", "Open record", "ledger-open-hint");
+    hint.setAttribute("aria-hidden", "true");
+    open.append(hint);
+    title.append(open);
+    const status = node("td", "", "ledger-row-status");
     status.append(node("span", row.status, "ledger-status-tag"));
-    const evidence = node("td", row.notes || "No public notes for this record.", "ledger-evidence");
+    const note = row.notes || "No public notes for this record.";
+    const brief = note.length > 168 ? note.slice(0, 165).trimEnd() + "…" : note;
+    const evidence = node("td", brief, "ledger-evidence");
     if (row.url) {
-      const link = node("a", "View source");
+      const link = node("a", "Source");
       link.href = row.url;
       link.setAttribute("aria-label", "View source for " + row.id + ": " + row.title);
       evidence.append(link);
     }
-    tr.append(recordId, node("td", row.category), node("td", row.title), status, evidence);
+    const category = node("td", row.category, "ledger-row-category");
+    for (const cell of [title, status, evidence, category]) cell.setAttribute("role", "cell");
+    open.addEventListener("click", (event) => {
+      if (!event.ctrlKey && !event.metaKey && !event.shiftKey && !event.altKey && event.button === 0) saveListState(open.dataset.record);
+    });
+    tr.addEventListener("click", (event) => {
+      if (event.target.closest("a, button, input, select, label") ||
+          event.ctrlKey || event.metaKey || event.shiftKey || event.altKey ||
+          event.button !== 0 || window.getSelection()?.toString()) return;
+      saveListState(open.dataset.record);
+      window.location.assign(open.href);
+    });
+    tr.append(recordId, category, title, status, evidence);
     return tr;
+  }
+
+  function saveListState(focusRecord = "") {
+    try {
+      history.replaceState({...history.state, [listStateKey]: {
+        search: fields.search.value, category: fields.category.value, status: fields.status.value,
+        size: fields.size.value, page: state.page, key: state.key, direction: state.direction, focusRecord,
+      }}, "");
+    } catch {}
+  }
+
+  function restoreListState() {
+    const saved = history.state?.[listStateKey];
+    if (!saved) return "";
+    fields.search.value = stringify(saved.search);
+    fields.category.value = stringify(saved.category);
+    optionSet(fields.status, rows.filter((r) => !fields.category.value ||
+      r.category === fields.category.value).map((r) => r.status), "All statuses");
+    fields.status.value = stringify(saved.status);
+    if (["25", "50", "100"].includes(saved.size)) fields.size.value = saved.size;
+    if (["id", "category", "title", "status"].includes(saved.key)) state.key = saved.key;
+    if (saved.direction === -1) state.direction = -1;
+    if (Number.isSafeInteger(saved.page) && saved.page > 0) state.page = saved.page;
+    return stringify(saved.focusRecord);
+  }
+
+  function showDetail(row) {
+    const back = byId("ledger-return");
+    const listURL = new URL("./#public-ledger", window.location.href);
+    back.href = listURL.href;
+    try {
+      const ref = new URL(document.referrer);
+      if (ref.origin === listURL.origin && ref.pathname === listURL.pathname &&
+          !ref.searchParams.has("record") && history.length > 1) {
+        back.textContent = "Back to research table";
+        back.addEventListener("click", (event) => {
+          if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey || event.button !== 0) return;
+          event.preventDefault();
+          history.back();
+        });
+      }
+    } catch {}
+    byId("ledger-detail-type").textContent = row ? "Research record" : "Record unavailable";
+    detailTitle.textContent = row ? row.title : "This record was not found";
+    if (row) {
+      byId("ledger-detail-id").textContent = row.id;
+      byId("ledger-detail-category").textContent = row.category;
+      byId("ledger-detail-status").textContent = row.status;
+      byId("ledger-detail-notes").textContent = row.notes || "No public notes for this record.";
+      const link = byId("ledger-detail-source");
+      if (row.url) { link.href = row.url; link.hidden = false; }
+      document.title = row.title + " · OpenKernelChallenge";
+    } else {
+      detail.querySelector("dl").hidden = true;
+      byId("ledger-detail-notes").textContent = "Return to the table to find a current public record.";
+    }
+    readout.textContent = "";
+    readout.hidden = true;
+    detail.hidden = false;
+    detailTitle.focus({preventScroll: true});
   }
 
   function filterRows() {
@@ -99,6 +196,7 @@
       fragment.append(tr);
     }
     tbody.replaceChildren(fragment);
+    mobileSort.value = state.key + ":" + state.direction;
     for (const button of headers) {
       const current = button.dataset.order === state.key;
       const direction = state.direction === 1 ? "ascending" : "descending";
@@ -114,6 +212,7 @@
     exportFiltered.disabled = !matching.length;
     prev.disabled = state.page === 1;
     next.disabled = state.page === totalPages;
+    saveListState();
   }
 
   function exportMatches() {
@@ -165,13 +264,34 @@
       });
       if (!rows.length || rows.some((row) => !row)) throw new Error("Incomplete records");
       scope.textContent = stringify(data.scope);
+      if (requestedRecord !== null) {
+        const record = requestedRecord.length <= 240 ?
+          rows.find((row) => row.category + ":" + row.id === requestedRecord) : null;
+        showDetail(record);
+        return;
+      }
       optionSet(fields.category, rows.map((r) => r.category), "All categories");
+      const restoreFocus = restoreListState();
       for (const el of [controls, guide, table, pages]) el.hidden = false;
       for (const field of [fields.category, fields.status, fields.size]) field.addEventListener("change", firstPage);
       fields.search.addEventListener("input", firstPage);
       exportFiltered.addEventListener("click", exportMatches);
-      prev.addEventListener("click", () => { state.page -= 1; render(); });
-      next.addEventListener("click", () => { state.page += 1; render(); });
+      mobileSort.addEventListener("change", () => {
+        const [key, direction] = mobileSort.value.split(":");
+        if (!["id", "category", "title", "status"].includes(key)) return;
+        state.key = key;
+        state.direction = direction === "-1" ? -1 : 1;
+        firstPage();
+      });
+      function changePage(delta) {
+        state.page += delta;
+        render();
+        table.scrollTop = 0;
+        table.scrollIntoView({block: "start", behavior: "instant"});
+        table.focus({preventScroll: true});
+      }
+      prev.addEventListener("click", () => changePage(-1));
+      next.addEventListener("click", () => changePage(1));
       byId("ledger-reset").addEventListener("click", () => {
         for (const name of ["search", "category", "status"]) fields[name].value = "";
         fields.size.value = "25";
@@ -187,6 +307,15 @@
         });
       }
       render();
+      function focusRecord(key) {
+        if (!key) return;
+        [...tbody.querySelectorAll(".ledger-record-link")].find((link) => link.dataset.record === key)
+          ?.focus({preventScroll: true});
+      }
+      focusRecord(restoreFocus);
+      window.addEventListener("pageshow", (event) => {
+        if (event.persisted) focusRecord(history.state?.[listStateKey]?.focusRecord);
+      });
     } catch {
       readout.textContent = "The table couldn’t load. Reload this page or open the CSV or JSON download above.";
     }
