@@ -222,7 +222,7 @@
   .ledger table { min-width: 0; table-layout: auto; }
   .ledger .ledger-evidence { min-width: 0; max-width: 31ch; }
 }
-@media (max-width: 760px) {
+@media (max-width: 970px) {
 
   .chapter-watermark { inset: .06em .09em auto auto; font-size: clamp(5.5rem, 20vw, 9rem); }
   .ledger-mobile-sort { display: grid !important; }
@@ -313,3 +313,25 @@
 .subnav a[aria-current=location]:after{transform:scaleX(1)}
 
 @media(max-width:690px){#public-ledger,.ledger-scroll{scroll-margin-top:105px}}
+
+/* Round 11: compact phone controls and consistent tablet table switching. */
+.ledger-controls { grid-template-columns:minmax(0,1.7fr) minmax(0,3fr) auto; }
+.ledger-filter-disclosure { min-width:0; }
+.ledger-advanced-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px; }
+.ledger-filter-disclosure > summary { display:none; }
+.chapter-watermark { opacity:.105; }
+@media(max-width:1070px) {
+  .ledger-controls { grid-template-columns:minmax(0,1fr) auto; }
+  .ledger-controls .ledger-search { grid-column:1/-1; }
+}
+@media(max-width:970px) { .ledger-advanced-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+@media(max-width:540px) {
+  .ledger-controls { grid-template-columns:minmax(0,1fr) auto; }
+  .ledger-controls .ledger-search { grid-column:1/-1; }
+  .ledger-filter-disclosure { display:block; border:1px solid #8aa8a6; border-radius:5px; background:#f3f8f6; }
+  .ledger-filter-disclosure > summary { display:list-item; min-height:44px; padding:.55rem .6rem; color:#164b51; font:650 .875rem/1.5 var(--sans); cursor:pointer; }
+  .ledger-advanced-grid { padding:.55rem .6rem; }
+  .ledger-controls > button { align-self:start; }
+}
+
+@media(max-width:375px) { .ledger-advanced-grid { grid-template-columns:minmax(0,1fr); } }

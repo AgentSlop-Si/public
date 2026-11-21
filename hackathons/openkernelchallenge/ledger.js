@@ -4,6 +4,8 @@
   const byId = (id) => document.getElementById(id);
   const scope = byId("ledger-scope");
   const controls = byId("ledger-controls");
+  const advanced = byId("ledger-filter-disclosure");
+  const advancedSummary = byId("ledger-filter-summary");
   const fields = {
     search: byId("ledger-search"),
     category: byId("ledger-category"),
@@ -261,6 +263,9 @@
     tbody.replaceChildren(fragment);
     for (const chip of quick.querySelectorAll("button")) chip.setAttribute("aria-pressed", String(chip.dataset.category === fields.category.value));
     mobileSort.value = state.key + ":" + state.direction;
+    const optionsChanged = Number(Boolean(fields.category.value)) + Number(Boolean(fields.status.value)) +
+      Number(fields.size.value !== "25") + Number(state.key !== "id" || state.direction !== 1);
+    advancedSummary.textContent = optionsChanged ? "Filters and sorting (" + optionsChanged + " active)" : "Filters and sorting";
     for (const button of headers) {
       const current = button.dataset.order === state.key;
       const direction = state.direction === 1 ? "ascending" : "descending";
@@ -343,6 +348,12 @@
       optionSet(fields.category, rows.map((r) => r.category), "All categories");
       const restoreFocus = restoreListState();
       buildQuickCategories();
+      const narrow = typeof window.matchMedia === "function" && window.matchMedia("(max-width: 540px)");
+      if (narrow) {
+        const syncDisclosure = () => { advanced.open = !narrow.matches; };
+        syncDisclosure();
+        narrow.addEventListener?.("change", syncDisclosure);
+      }
       for (const el of [controls, guide, table, pages]) el.hidden = false;
       for (const field of [fields.category, fields.status, fields.size]) field.addEventListener("change", firstPage);
       fields.search.addEventListener("input", firstPage);
