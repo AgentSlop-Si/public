@@ -71,6 +71,7 @@
     const note = methodNotes.rows?.[row.row] || {};
     const name = note.model || row.name || entry?.name || "Supplementary result";
     const recordedInput = row.input || "Input label unavailable";
+    for(const id of ["result-title","result-model"])get(id).setAttribute("translate","no");
     const cutoff = row.policy || "Cutoff label unavailable";
     const positives = row.tp + row.fn;
     const negatives = row.fp + row.tn;
@@ -89,6 +90,7 @@
     }
 
     const primary = get("result-primary");
+    for(const id of ["result-primary","result-confusion","result-metrics","result-related"])get(id).replaceChildren();
     statistic(primary, "Sensitivity", percent(row.tp, positives), row.tp + " of " + positives + " low-pH recordings");
     statistic(primary, "False-positive rate", percent(row.fp, negatives), row.fp + " of " + negatives + " recordings without low pH");
     statistic(primary, "Precision", percent(row.tp, alerts), alerts ? row.tp + " of " + alerts + " alerts" : "Zero alerts");
@@ -122,6 +124,8 @@
     }
     resultStatus.hidden = true;
     get("result-page").hidden = false;
+    window.CTGI18n?.localize(get("result-page"));
+    document.title = name + " · " + window.CTGI18n.phrase("Result #"+row.row) + " · CTG";
   }
 
   if (!rowNumber) {
@@ -132,6 +136,6 @@
   Promise.all([
     json("../atlas-aggregate-results-20261119.json"),
     json("../atlas-methods-20261121.json").catch(() => ({})),
-  ]).then(([archive, methodNotes]) => render(archive, methodNotes))
+  ]).then(([archive, methodNotes]) => {render(archive, methodNotes);window.addEventListener("ctg:languagechange",()=>render(archive,methodNotes));})
     .catch(() => unavailable("The evidence could not be loaded. Try opening the result again from the workbench."));
 })();

@@ -1,13 +1,18 @@
 <!doctype html>
-<html lang="en">
+<html lang="ru">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; connect-src 'self'; base-uri 'none'; form-action 'none'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; connect-src 'self'; img-src 'self'; base-uri 'none'; form-action 'none'">
   <meta name="description" content="Inputs, training notes, and aggregate development statistics for a CTG Outcome Atlas result.">
   <title>CTG result · AgentSlop Research</title>
   <link rel="stylesheet" href="../atlas-results.css">
-  <script src="result.js" defer></script>
+  <link rel="stylesheet" href="../ctg-theme.css?v=20261122-contrast">
+<script src="../ctg-copy.js?v=20261122" defer></script>
+<script src="../ctg-static-copy.js?v=20261122" defer></script>
+<script src="../ctg-extra-copy.js?v=20261122" defer></script>
+<script src="../ctg-i18n.js?v=20261122" defer></script>
+<script src="result.js?v=20261122" defer></script>
 </head>
 <body class="atlas-result-page">
   <header class="result-header">
@@ -23,9 +28,11 @@
     <p id="result-status" class="result-status" role="status">Loading the result…</p>
     <noscript><p>Use JavaScript to open an individual result. You can also <a href="../atlas-aggregate-results-20261119.json">download the aggregate results</a>.</p></noscript>
     <article id="result-page" hidden>
+      <header class="result-cover">
       <p class="result-kicker" id="result-identity"></p>
       <h1 id="result-title"></h1>
       <p class="result-subtitle" id="result-subtitle"></p>
+      </header>
 
       <section class="result-panel" aria-labelledby="result-method-title">
         <h2 id="result-method-title">Inputs, model, and training</h2>

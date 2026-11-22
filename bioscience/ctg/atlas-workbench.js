@@ -24,6 +24,8 @@
 
   let view = "results";
   let page = 0;
+  let pageSize = 16;
+  const deskStateKey = "ctg.desk.v1";
   let matching = [];
 
   function node(tag, text, className) {
@@ -93,7 +95,7 @@
     const coverage = get("status").value;
     const cutoff = get("policy-filter").value;
     const registry = /^(?:#|(?:id|experiment)\s*)?0*(\d{1,3})$/.exec(query);
-    const source = /^(?:row|result)\s*#?(\d{1,4})$/.exec(query);
+    const source = /^(?:row|result|строка|результат|жол|нәтиже)\s*#?(\d{1,4})$/.exec(query);
     return records.filter(row => {
       if (scope !== "all" && (scope === "441") !== (row.n === 441)) return false;
       if (coverage === "full" && row.full !== true) return false;
@@ -106,7 +108,7 @@
         const number = Number(registry[1]);
         return number > 192 && /^\d+$/.test(query) ? row.row === number : row.entryId === number;
       }
-      return [row.model, row.input, row.policy, aliases[row.entryId]]
+      return [row.model, row.input, row.policy, window.CTGI18n?.phrase(row.input), window.CTGI18n?.phrase(row.policy), aliases[row.entryId]]
         .filter(Boolean).join(" ").toLowerCase().includes(query);
     });
   }
@@ -155,7 +157,8 @@
       link.setAttribute("aria-label", "View result " + row.row + " for " + row.model);
       rowHeading.append(link);
       const model = node("td");
-      model.append(node("span", row.model), node("small", row.entryId === null ? "Supplementary" : "Registry #" + row.entryId));
+      const modelName = node("span", row.model); modelName.setAttribute("translate", "no");
+      model.append(modelName, node("small", row.entryId === null ? "Supplementary" : "Registry #" + row.entryId));
       line.append(rowHeading, model);
       for (const value of [
         row.n, row.input || "—", row.policy || "—",
@@ -214,11 +217,11 @@
     }
     matching = ordered(filteredResults());
     const items = view === "results" ? matching : groupedRows(matching);
-    const pageSize = view === "results" ? 16 : 8;
-    const pages = Math.ceil(items.length / pageSize);
+    const perPage = view === "results" ? pageSize : 8;
+    const pages = Math.ceil(items.length / perPage);
     page = Math.max(0, Math.min(page, pages - 1));
-    const start = page * pageSize;
-    const stop = Math.min(start + pageSize, items.length);
+    const start = page * perPage;
+    const stop = Math.min(start + perPage, items.length);
     list.replaceChildren();
     if (!items.length) {
       list.append(node("p", "No results match these filters.", "archive-empty"));
@@ -237,6 +240,9 @@
     get("export-aggregate").disabled = !matching.length;
     get("archive-view-results").setAttribute("aria-pressed", String(view === "results"));
     get("archive-view-models").setAttribute("aria-pressed", String(view === "models"));
+    if (get("ctg-sort")) get("ctg-sort").value = sortState.column + ":" + sortState.direction;
+    try { sessionStorage.setItem(deskStateKey, JSON.stringify({filters:filters.map(f=>f.value),page,view,pageSize,sortState})); } catch {}
+    window.CTGI18n?.localize(get("experiments"));
   }
 
   function resetFilters() {
@@ -335,6 +341,29 @@
     setTimeout(() => URL.revokeObjectURL(url), 1000);
   });
   window.addEventListener("hashchange", visitBookmark);
+  const options = node("div",undefined,"ctg-desk-options");
+  const sizeLabel=node("label","Rows per page");
+  const sizeSelect=node("select");sizeSelect.id="ctg-page-size";
+  for(const size of [16,25,50,100]) {const option=node("option",String(size));option.value=size;sizeSelect.append(option);}
+  sizeLabel.append(sizeSelect);
+  const orderLabel=node("label","Sort records");const orderSelect=node("select");orderSelect.id="ctg-sort";
+  for(const column of columns)for(const direction of ["asc","desc"]){const option=node("option",column.label+" · "+(direction==="asc"?"ascending":"descending"));option.value=column.key+":"+direction;orderSelect.append(option);}
+  orderLabel.append(orderSelect);options.append(sizeLabel,orderLabel);
+  get("list").before(options);
+  sizeSelect.addEventListener("change",()=>{pageSize=Number(sizeSelect.value);page=0;render();});
+  orderSelect.addEventListener("change",()=>{[sortState.column,sortState.direction]=orderSelect.value.split(":");page=0;render();});
+  try {
+    const saved=JSON.parse(sessionStorage.getItem(deskStateKey));
+    if(saved&&Array.isArray(saved.filters)&&saved.filters.length===filters.length){
+      filters.forEach((filter,index)=>{if(filter.tagName==='INPUT'||Array.from(filter.options).some(o=>o.value===saved.filters[index]))filter.value=saved.filters[index];});
+      if([16,25,50,100].includes(saved.pageSize))pageSize=saved.pageSize;
+      if(["models","results"].includes(saved.view))view=saved.view;
+      if(Number.isInteger(saved.page)&&saved.page>=0)page=saved.page;
+      if(columns.some(c=>c.key===saved.sortState?.column)&&["asc","desc"].includes(saved.sortState?.direction))Object.assign(sortState,saved.sortState);
+    }
+  }catch{}
+  sizeSelect.value=pageSize;
+  window.addEventListener("ctg:languagechange",()=>render());
   render();
   visitBookmark();
 })();
