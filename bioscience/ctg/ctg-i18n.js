@@ -111,7 +111,7 @@
     const menu=document.createElement('details');menu.className='ctg-menu';
     const summary=document.createElement('summary');summary.dataset.i18n='menu';summary.textContent=t('menu');
     const nav=document.createElement('nav');nav.setAttribute('aria-label','Site navigation');
-    const links=[['overview','/bioscience/ctg/'],['results','/bioscience/ctg/#results'],['records','/bioscience/ctg/#experiments'],['methods','/bioscience/ctg/#methods'],['offline','/bioscience/ctg/#offline'],['sources','/bioscience/ctg/#sources'],['OpenKernelChallenge','/hackathons/openkernelchallenge/'],['home','/']];
+    const links=[['overview','/bioscience/ctg/'],['results','/bioscience/ctg/#results'],['records','/bioscience/ctg/#experiments'],['methods','/bioscience/ctg/#methods'],['offline','/bioscience/ctg/#offline'],['sources','/bioscience/ctg/#sources'],['home','/']];
     for(const [key,path] of links){const a=document.createElement('a');a.href=path;a.dataset.i18n=key;a.textContent=t(key);a.addEventListener('click',()=>{menu.open=false;});nav.append(a);}
     menu.append(summary,nav);controls.append(picker,menu);host.append(controls);
     document.addEventListener('keydown', event=>{if(event.key==='Escape'&&menu.open){menu.open=false;summary.focus();}});
